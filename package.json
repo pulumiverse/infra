@@ -1,0 +1,28 @@
+{
+  "name": "@pulumiverse/community",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "repository": "github:pulumiverse/community",
+  "engines": {
+    "node": ">=14.17"
+  },
+  "scripts": {
+
+  },
+  "prettier": "@cobraz/prettier-config",
+  "eslintConfig": {
+    "extends": "@bjerk/eslint-config"
+  },
+  "devDependencies": {
+    "@bjerk/eslint-config": "^1.0.0",
+    "@cobraz/prettier-config": "^1.0.1",
+    "@tsconfig/node14": "^1.0.1",
+    "@types/node": "14.x.x"
+  },
+  "volta": {
+    "node": "14.17.6"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.13.2"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "@tsconfig/node14",
+  "compilerOptions": {
+      "outDir": "bin"
+  },
+  "files": ["index.ts"]
+}

@@ -1,0 +1,25 @@
+name: Push
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  apply-changes:
+    name: Apply changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: yarn
+      - run: yarn install
+      - uses: pulumi/actions@v3
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          command: up
+          refresh: true
+          stack-name: setup
