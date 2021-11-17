@@ -1,8 +1,8 @@
 {
-  "name": "@pulumiverse/community",
+  "name": "@pulumiverse/infra",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "repository": "github:pulumiverse/community",
+  "repository": "github:pulumiverse/infra",
   "engines": {
     "node": ">=14.17"
   },
