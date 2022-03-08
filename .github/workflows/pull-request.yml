@@ -17,8 +17,8 @@ jobs:
       - uses: pulumi/actions@v3
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
         with:
           command: preview
           refresh: true
           stack-name: pulumiverse/prod
-          github-token: ${{ secrets.GITHUB_TOKEN }}
