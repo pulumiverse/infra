@@ -20,6 +20,6 @@ jobs:
         with:
           command: preview
           refresh: true
-          stack-name: prod
+          stack-name: pulumiverse/prod
           comment-on-pr: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
