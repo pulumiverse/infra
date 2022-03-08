@@ -6,9 +6,7 @@
   "engines": {
     "node": ">=14.17"
   },
-  "scripts": {
-
-  },
+  "scripts": {},
   "prettier": "@cobraz/prettier-config",
   "eslintConfig": {
     "extends": "@bjerk/eslint-config"
@@ -23,6 +21,7 @@
     "node": "14.17.6"
   },
   "dependencies": {
+    "@pulumi/github": "^4.10.0",
     "@pulumi/pulumi": "^3.13.2"
   }
 }

@@ -105,3 +105,4 @@ dist
 
 # MacOS specific
 .DS_Store
+.envrc
