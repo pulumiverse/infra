@@ -27,9 +27,6 @@ const github_meta = new github.Repository("github",
         allowRebaseMerge: true,
         allowMergeCommit: true,
         deleteBranchOnMerge: false,
-    },
-    {
-        import: '.github'
     }
 );
 
@@ -54,9 +51,6 @@ const awesome_pulumi = new github.Repository("awesome-pulumi",
         allowRebaseMerge: false,
         allowMergeCommit: false,
         deleteBranchOnMerge: true,
-    },
-    {
-        import: 'awesome-pulumi'
     }
 );
 
@@ -74,9 +68,6 @@ const kubernetes_sdks = new github.Repository("kubernetes-sdks",
         allowSquashMerge: false,
         allowMergeCommit: false,
         deleteBranchOnMerge: true,
-    },
-    {
-        import: 'kubernetes-sdks'
     }
 );
 
@@ -95,8 +86,5 @@ const pulumi_concourse = new github.Repository("pulumi-concourse",
         allowSquashMerge: false,
         allowMergeCommit: true,
         deleteBranchOnMerge: false,
-    },
-    {
-        import: 'pulumi-concourse'
     }
 );
