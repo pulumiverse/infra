@@ -22,4 +22,5 @@ jobs:
         with:
           command: up
           refresh: true
-          stack-name: setup
+          stack-name: pulumiverse/prod
+          github-token: ${{ secrets.GITHUB_TOKEN }}
