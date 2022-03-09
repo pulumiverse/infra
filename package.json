@@ -6,6 +6,7 @@
   "engines": {
     "node": ">=14.17"
   },
+  "main": "src/index.ts",
   "scripts": {},
   "prettier": "@cobraz/prettier-config",
   "eslintConfig": {
