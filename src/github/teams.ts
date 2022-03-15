@@ -24,4 +24,28 @@ const board_cobraz = new github.TeamMembership('board_cobraz',
     }
 )
 
+const board_usrbinkat = new github.TeamMembership('board_usrbinkat',
+    {
+        teamId: board.id,
+        username: 'usrbinkat',
+        role: 'maintainer'
+    }
+)
+
+const board_rawkode = new github.TeamMembership('board_rawkode',
+    {
+        teamId: board.id,
+        username: 'rawkode',
+        role: 'maintainer'
+    }
+)
+
+const board_tenwit = new github.TeamMembership('board_tenwit',
+    {
+        teamId: board.id,
+        username: 'tenwit',
+        role: 'maintainer'
+    }
+)
+
 export const all_teams = [ board ]
