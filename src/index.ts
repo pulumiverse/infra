@@ -9,3 +9,6 @@ export const owners = github.owners.map((owner) => {
 export const members = github.members.map((member) => {
     return member.username
 })
+export const teams = github.teams.map((team) => {
+    return team.name
+})
