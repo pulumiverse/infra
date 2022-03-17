@@ -108,4 +108,25 @@ const pulumi_concourse = new github.Repository("pulumi-concourse",
     }
 );
 
-export const all = [ infra, github_meta, awesome_pulumi, kubernetes_sdks, pulumi_concourse ]
+const pulumi_unifi = new github.Repository("pulumi-unifi",
+    {
+        name: 'pulumi-unifi',
+        description: 'Pulumi provider for Unifi network gear',
+        hasDownloads: false,
+        hasIssues: false,
+        hasProjects: false,
+        hasWiki: false,
+        visibility: 'public',
+        vulnerabilityAlerts: true,
+        allowAutoMerge: false,
+        allowRebaseMerge: true,
+        allowSquashMerge: false,
+        allowMergeCommit: true,
+        deleteBranchOnMerge: false,
+    },
+    {
+        transformations: [ standardRepoTags ]
+    }
+);
+
+export const all = [ infra, github_meta, awesome_pulumi, kubernetes_sdks, pulumi_concourse, pulumi_unifi ]
