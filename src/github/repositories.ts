@@ -129,4 +129,24 @@ const pulumi_unifi = new github.Repository("pulumi-unifi",
     }
 );
 
-export const all = [ infra, github_meta, awesome_pulumi, kubernetes_sdks, pulumi_concourse, pulumi_unifi ]
+const terraformMigrationGuide = new github.Repository("terraform-migration-guide",
+    {
+        name: 'terraform-migration-guide',
+        hasDownloads: false,
+        hasIssues: true,
+        hasProjects: false,
+        hasWiki: false,
+        visibility: 'public',
+        vulnerabilityAlerts: false,
+        allowAutoMerge: true,
+        allowRebaseMerge: true,
+        allowSquashMerge: false,
+        allowMergeCommit: false,
+        deleteBranchOnMerge: true,
+    },
+    {
+        transformations: [ standardRepoTags ]
+    }
+);
+
+export const all = [infra, github_meta, awesome_pulumi, kubernetes_sdks, pulumi_concourse, pulumi_unifi, terraformMigrationGuide];
