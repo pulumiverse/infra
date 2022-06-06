@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "repository": "github:pulumiverse/infra",
   "engines": {
-    "node": ">=14.17"
+    "node": ">=16.14"
   },
   "main": "src/index.ts",
   "scripts": {},
@@ -15,14 +15,17 @@
   "devDependencies": {
     "@bjerk/eslint-config": "^1.0.0",
     "@cobraz/prettier-config": "^1.0.1",
-    "@tsconfig/node14": "^1.0.1",
-    "@types/node": "14.x.x"
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^16.11.38",
+    "typescript": "^4.7.3"
   },
   "volta": {
-    "node": "14.17.6"
+    "node": "16.14.1"
   },
   "dependencies": {
     "@pulumi/github": "^4.10.0",
-    "@pulumi/pulumi": "^3.13.2"
+    "@pulumi/pulumi": "^3.13.2",
+    "runtypes": "^6.5.1",
+    "yaml": "^2.1.1"
   }
 }
