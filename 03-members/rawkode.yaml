@@ -1,0 +1,6 @@
+username: rawkode
+role: admin
+membershipImport: owner_rawkode
+teamMembershipImport: board_rawkode
+maintainer:
+  - governance_board
