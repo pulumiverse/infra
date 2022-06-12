@@ -29,14 +29,13 @@ export function configureOrganizationMembers(memberArgs: MemberType[], allTeams:
                         role: role
                     },
                     {
-                        // parent: allTeams.get(requiredTeam),
+                        parent: allTeams.get(requiredTeam),
                         dependsOn: orgMembership, // Can only add to team after being added to the organization
-                        aliases: [
-                            {
-                        //     parent: pulumi.rootStackResource
-                        // }, {
+                        aliases: memberInfo.teamMembershipImport ? [{
+                            parent: pulumi.rootStackResource
+                        }, {
                             name: memberInfo.teamMembershipImport
-                        }]
+                        }] : []
                     }
                 )
             } else {
