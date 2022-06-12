@@ -1,0 +1,3 @@
+name: pulumi-concourse
+description: Pulumi provider for Concourse
+type: provider

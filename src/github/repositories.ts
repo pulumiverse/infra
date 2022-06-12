@@ -7,6 +7,7 @@ interface RepositoryArgs {
     description: pulumi.Input<string>,
     teams: pulumi.Input<string[]>,
     allTeams: Map<string, github.Team>;
+    import: boolean;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -28,7 +29,14 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 vulnerabilityAlerts: true,
             },
             {
-                parent: this
+                parent: this,
+                import: args.import ? name : undefined,
+                aliases: [
+                    {
+                        parent: pulumi.rootStackResource
+                    }
+                ],
+                transformations: [ standardRepoTags ],
             }
         );
         const mainBranchProtection = new github.BranchProtection(`${name}_protect_main`,
@@ -115,6 +123,7 @@ export function configureRepositories(repositoryArgs: RepositoryType[], allTeams
                 description: repositoryInfo.description,
                 teams: repositoryInfo.teams || [],
                 allTeams: allTeams,
+                import: repositoryInfo.import || false
             })
         }
 
@@ -201,27 +210,6 @@ const kubernetes_sdks = new github.Repository("kubernetes-sdks",
         allowSquashMerge: false,
         allowMergeCommit: false,
         deleteBranchOnMerge: true,
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
-
-const pulumi_concourse = new github.Repository("pulumi-concourse",
-    {
-        name: 'pulumi-concourse',
-        description: 'Pulumi provider for Concourse',
-        hasDownloads: true,
-        hasIssues: true,
-        hasProjects: false,
-        hasWiki: false,
-        visibility: 'public',
-        vulnerabilityAlerts: true,
-        allowAutoMerge: false,
-        allowRebaseMerge: true,
-        allowSquashMerge: false,
-        allowMergeCommit: true,
-        deleteBranchOnMerge: false,
     },
     {
         transformations: [standardRepoTags]
