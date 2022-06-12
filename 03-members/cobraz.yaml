@@ -1,0 +1,6 @@
+username: cobraz
+role: admin
+membershipImport: owner_cobraz
+teamMembershipImport: board_cobraz
+maintainer:
+  - governance_board
