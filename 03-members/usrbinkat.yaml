@@ -1,6 +1,4 @@
 username: usrbinkat
 role: admin
-membershipImport: owner_usrbinkat
-teamMembershipImport: board_usrbinkat
 maintainer:
   - governance_board
