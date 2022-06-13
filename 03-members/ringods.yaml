@@ -4,3 +4,6 @@ membershipImport: owner_ringods
 teamMembershipImport: board_ringods
 maintainer:
   - governance_board
+member:
+  - pulumi-concourse
+  - pulumi-unifi

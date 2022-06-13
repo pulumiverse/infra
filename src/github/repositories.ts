@@ -216,27 +216,6 @@ const kubernetes_sdks = new github.Repository("kubernetes-sdks",
     }
 );
 
-const pulumi_unifi = new github.Repository("pulumi-unifi",
-    {
-        name: 'pulumi-unifi',
-        description: 'Pulumi provider for Unifi network gear',
-        hasDownloads: false,
-        hasIssues: true,
-        hasProjects: false,
-        hasWiki: false,
-        visibility: 'public',
-        vulnerabilityAlerts: true,
-        allowAutoMerge: false,
-        allowRebaseMerge: true,
-        allowSquashMerge: false,
-        allowMergeCommit: true,
-        deleteBranchOnMerge: false,
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
-
 const terraformMigrationGuide = new github.Repository("terraform-migration-guide",
     {
         name: 'terraform-migration-guide',
