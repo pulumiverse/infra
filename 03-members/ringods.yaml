@@ -2,3 +2,6 @@ username: ringods
 role: admin
 maintainer:
   - governance_board
+member:
+  - pulumi-concourse
+  - pulumi-unifi

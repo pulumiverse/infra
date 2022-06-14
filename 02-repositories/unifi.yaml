@@ -1,0 +1,3 @@
+name: pulumi-unifi
+description: Pulumi provider for Unifi network gear
+type: provider
