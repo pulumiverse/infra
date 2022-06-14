@@ -1,6 +1,4 @@
 username: tenwit
 role: admin
-membershipImport: owner_tenwit
-teamMembershipImport: board_tenwit
 maintainer:
   - governance_board
