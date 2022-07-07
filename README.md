@@ -18,7 +18,38 @@ separate publishing tokens to the respective package registries.
 
 ## Package Registries
 
-**Note:** to use custom package names for Terraform bridge providers, please ensure you minimally use [`github.com/pulumi/pulumi-terraform-bridge v3.21.0`](https://github.com/pulumi/pulumi-terraform-bridge/releases/tag/v3.21.0).
+Please read the documentation on [Authoring & Publishing](https://www.pulumi.com/docs/guides/pulumi-packages/how-to-author/) before continuing with the specifics below.
+
+**Notes:** 
+
+- to use custom package names for Terraform bridge providers, please ensure you minimally use [`github.com/pulumi/pulumi-terraform-bridge v3.21.0`](https://github.com/pulumi/pulumi-terraform-bridge/releases/tag/v3.21.0).
+- when publishing plugin binaries for providers as Github releases, make sure your users are running 
+  [Pulumi 3.35.3](https://www.pulumi.com/docs/guides/pulumi-packages/how-to-author/#support-for-github-releases)
+  or up. Make sure to set the plugin download URL consistently to `github://api.github.com/pulumiverse`.
+
+  In `schema.json`, add a toplevel entry like this:
+
+  ```json
+  "pluginDownloadURL": "github://api.github.com/pulumiverse",
+  ```
+
+  When bridging a Terraform provider, add the following to `providers/resources.go`:
+
+  ```go
+  func Provider() tfbridge.ProviderInfo {
+    ...
+
+    // Create a Pulumi provider mapping
+    prov := tfbridge.ProviderInfo{
+        ...
+        // PluginDownloadURL is an optional URL used to download the Provider
+        // for use in Pulumi programs
+        PluginDownloadURL: "github://api.github.com/pulumiverse",
+        ...
+    }
+    ...
+  }
+  ```
 
 ### NPM Registry
 
