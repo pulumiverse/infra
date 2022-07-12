@@ -18,12 +18,13 @@ export const MemberType = RT.Record({
 export const RepositoryType = RT.Record({
     name: RT.String,
     description: RT.String,
-    type: RT.Union(RT.Literal('provider')),
+    type: RT.Union(RT.Literal('administrative'), RT.Literal('provider'), RT.Literal('information')),
     teams: RT.Array(RT.String).optional(),
+    topics: RT.Array(RT.String).optional(),
     import: RT.Boolean.optional(),
     template: RT.String.optional(),
 })
 
-export type TeamType = Static<typeof TeamType>
-export type MemberType = Static<typeof MemberType>
-export type RepositoryType = Static<typeof RepositoryType>
+export type Team = Static<typeof TeamType>
+export type Member = Static<typeof MemberType>
+export type Repository = Static<typeof RepositoryType>

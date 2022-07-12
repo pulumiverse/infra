@@ -1,8 +1,8 @@
 import * as github from "@pulumi/github";
 import * as pulumi from "@pulumi/pulumi";
-import { MemberType } from "../configTypes";
+import { Member } from "../configTypes";
 
-export function configureOrganizationMembers(memberArgs: MemberType[], allTeams: Map<string, github.Team>): Map<string, github.Membership> {
+export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map<string, github.Team>, allRepositories: Map<string, github.Repository>): Map<string, github.Membership> {
     let members = new Map<string, github.Membership>()
     memberArgs.map((memberInfo) => {
         let orgMembership = new github.Membership(memberInfo.username, {

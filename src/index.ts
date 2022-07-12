@@ -10,10 +10,10 @@ async function main() {
     const teams = configureOrganizationTeams(teamList);
 
     const repositoryList = await readAndParseFilesInFolder<RepositoryType>("02-repositories", RepositoryType);
-    configureRepositories(repositoryList, teams);
+    const repositories = configureRepositories(repositoryList, teams);
 
     const memberList = await readAndParseFilesInFolder<MemberType>("03-members", MemberType);
-    const members = configureOrganizationMembers(memberList, teams);
+    const members = configureOrganizationMembers(memberList, teams, repositories);
 }
 
 main()

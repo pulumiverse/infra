@@ -1,0 +1,5 @@
+name: infra
+description: IaC for all infrastructure required by Pulumiverse
+type: administrative
+topics:
+  - infrastructure-as-code
