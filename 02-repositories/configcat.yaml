@@ -2,3 +2,4 @@ name: pulumi-configcat
 description: Pulumi provider for ConfigCat
 type: provider
 import: true
+template: pulumi-tf-provider-boilerplate

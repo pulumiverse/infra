@@ -8,6 +8,7 @@ interface RepositoryArgs {
     teams: pulumi.Input<string[]>,
     allTeams: Map<string, github.Team>;
     import: boolean;
+    template: pulumi.Input<string> | undefined;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -22,11 +23,15 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 description: args.description,
                 hasWiki: false,
                 hasIssues: true,
-                hasDownloads: false,
+                hasDownloads: true,
                 hasProjects: false,
                 visibility: 'public',
                 deleteBranchOnMerge: true,
                 vulnerabilityAlerts: true,
+                template: args.template ? {
+                    owner:'pulumi',
+                    repository: args.template,
+                } : undefined
             },
             {
                 parent: this,
@@ -123,7 +128,8 @@ export function configureRepositories(repositoryArgs: RepositoryType[], allTeams
                 description: repositoryInfo.description,
                 teams: repositoryInfo.teams || [],
                 allTeams: allTeams,
-                import: repositoryInfo.import || false
+                import: repositoryInfo.import || false,
+                template: repositoryInfo.template,
             })
         }
 
