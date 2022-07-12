@@ -24,7 +24,6 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 description: args.description,
                 hasWiki: false,
                 hasIssues: true,
-                hasDownloads: true,
                 hasProjects: false,
                 visibility: 'public',
                 deleteBranchOnMerge: true,
@@ -222,39 +221,6 @@ function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
     }
     return undefined
 }
-
-const infra = new github.Repository("infra",
-    {
-        name: 'infra',
-        hasDownloads: false,
-        hasIssues: true,
-        hasProjects: false,
-        hasWiki: false,
-        visibility: 'public',
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
-
-const github_meta = new github.Repository("github",
-    {
-        name: '.github',
-        description: 'This repository documents the community model of Pulumiverse. All community related aspects are consolidated here.',
-        hasDownloads: true,
-        hasIssues: true,
-        hasProjects: true,
-        hasWiki: false,
-        visibility: 'public',
-        vulnerabilityAlerts: false,
-        allowRebaseMerge: true,
-        allowMergeCommit: true,
-        deleteBranchOnMerge: false,
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
 
 const kubernetes_sdks = new github.Repository("kubernetes-sdks",
     {
