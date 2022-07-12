@@ -1,11 +1,12 @@
 import * as github from "@pulumi/github";
 import * as pulumi from "@pulumi/pulumi";
 
-import { RepositoryType } from "../configTypes";
+import { Repository } from "../configTypes";
 
 interface RepositoryArgs {
     description: pulumi.Input<string>,
     teams: pulumi.Input<string[]>,
+    topics: pulumi.Input<string[]>,
     allTeams: Map<string, github.Team>;
     import: boolean;
     template: pulumi.Input<string> | undefined;
@@ -28,6 +29,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 visibility: 'public',
                 deleteBranchOnMerge: true,
                 vulnerabilityAlerts: true,
+                topics: args.topics,
                 template: args.template ? {
                     owner:'pulumi',
                     repository: args.template,
@@ -41,7 +43,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                         parent: pulumi.rootStackResource
                     }
                 ],
-                transformations: [ standardRepoTags ],
+                transformations: this.repositoryTransformations(),
             }
         );
         const mainBranchProtection = new github.BranchProtection(`${name}_protect_main`,
@@ -66,6 +68,12 @@ abstract class BaseRepository extends pulumi.ComponentResource {
             teams.forEach((requiredTeam) => this.addTeamMembership(name, requiredTeam, args.allTeams));
         }) 
 
+    }
+
+    abstract repositoryTransformations() : pulumi.ResourceTransformation[];
+
+    get repository(): github.Repository {
+        return this._repository
     }
 
     addTeamMembership(name: string, requiredTeam: string, allTeams: Map<string, github.Team>) {
@@ -118,29 +126,101 @@ class ProviderRepository extends BaseRepository {
     get team(): github.Team {
         return this._repositoryTeam
     }
+
+    repositoryTransformations() : pulumi.ResourceTransformation[] {
+        return [standardRepoTags, providerRepoTags]
+    }
+
 }
 
-export function configureRepositories(repositoryArgs: RepositoryType[], allTeams: Map<string, github.Team>) {
+// An Administrative repository is a repository owned by the Pulumiverse board to administer the Pulumiverse organization
+// Each such repositories has the Pulumiverse board as members, code owners and PR reviewers.
+class AdministrativeRepository extends BaseRepository {
+
+    constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
+        super('pulumiverse:github:AdministrativeRepository', name, args, opts);
+    }
+
+    repositoryTransformations() : pulumi.ResourceTransformation[] {
+        return [standardRepoTags]
+    }
+
+}
+
+// An Information repository is a repository only containing data, no providers, pulumi packages or example code.
+class InformationRepository extends BaseRepository {
+
+    constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
+        super('pulumiverse:github:InformationRepository', name, args, opts);
+    }
+
+    repositoryTransformations() : pulumi.ResourceTransformation[] {
+        return [standardRepoTags]
+    }
+
+}
+
+export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>) : Map<string, github.Repository> {
+    let repositories = new Map<string, github.Repository>()
     repositoryArgs.map((repositoryInfo) => {
 
-        if (repositoryInfo.type == 'provider') {
-            const pulumiverseRepository = new ProviderRepository(repositoryInfo.name, {
-                description: repositoryInfo.description,
-                teams: repositoryInfo.teams || [],
-                allTeams: allTeams,
-                import: repositoryInfo.import || false,
-                template: repositoryInfo.template,
-            })
+        switch (repositoryInfo.type) {
+            case 'administrative': {
+                repositories.set(repositoryInfo.name, new AdministrativeRepository(repositoryInfo.name, {
+                    description: repositoryInfo.description,
+                    teams: repositoryInfo.teams || [],
+                    topics: repositoryInfo.topics || [],
+                    allTeams: allTeams,
+                    import: repositoryInfo.import || false,
+                    template: repositoryInfo.template,
+                }).repository);
+                break;
+            }
+            case 'provider': {
+                repositories.set(repositoryInfo.name, new ProviderRepository(repositoryInfo.name, {
+                    description: repositoryInfo.description,
+                    teams: repositoryInfo.teams || [],
+                    topics: repositoryInfo.topics || [],
+                    allTeams: allTeams,
+                    import: repositoryInfo.import || false,
+                    template: repositoryInfo.template,
+                }).repository);
+                break;
+            }
+            case 'information': {
+                repositories.set(repositoryInfo.name, new InformationRepository(repositoryInfo.name, {
+                    description: repositoryInfo.description,
+                    teams: repositoryInfo.teams || [],
+                    topics: repositoryInfo.topics || [],
+                    allTeams: allTeams,
+                    import: repositoryInfo.import || false,
+                    template: repositoryInfo.template,
+                }).repository);
+                break;
+            }
         }
-
     });
+    return repositories;
 }
 
 function standardRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.ResourceTransformationResult | undefined {
-    let customTopics = args.props.topics as string[];
-    let allTopics = ['pulumi'].concat(customTopics);
-    args.props.topics = allTopics;
-    return { props: args.props, opts: args.opts };
+    if (args.type == 'github:index/repository:Repository') {
+        let customTopics = args.props.topics as string[];
+        let allTopics = ['pulumi'].concat(customTopics);
+        args.props.topics = allTopics;
+        return { props: args.props, opts: args.opts };
+    }
+    return undefined
+}
+
+function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.ResourceTransformationResult | undefined {
+    if (args.type == 'github:index/repository:Repository') {
+        let customTopics = args.props.topics as string[];
+        let allTopics = ['pulumi-provider'].concat(customTopics);
+        args.props.topics = allTopics;
+        return { props: args.props, opts: args.opts };
+    }
+    return undefined
 }
 
 const infra = new github.Repository("infra",
@@ -176,56 +256,10 @@ const github_meta = new github.Repository("github",
     }
 );
 
-const awesome_pulumi = new github.Repository("awesome-pulumi",
-    {
-        name: 'awesome-pulumi',
-        description: 'Curated list of resources on Pulumi',
-        homepageUrl: 'https://github.com/pulumiverse',
-        topics: [
-            'devops',
-            'awesome',
-            'infrastructure-as-code',
-            'awesome-list',
-        ],
-        hasDownloads: true,
-        hasIssues: true,
-        hasProjects: true,
-        hasWiki: false,
-        visibility: 'public',
-        vulnerabilityAlerts: true,
-        allowRebaseMerge: false,
-        allowMergeCommit: false,
-        deleteBranchOnMerge: true,
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
-
 const kubernetes_sdks = new github.Repository("kubernetes-sdks",
     {
         name: 'kubernetes-sdks',
         hasDownloads: true,
-        hasIssues: true,
-        hasProjects: false,
-        hasWiki: false,
-        visibility: 'public',
-        vulnerabilityAlerts: false,
-        allowAutoMerge: true,
-        allowRebaseMerge: true,
-        allowSquashMerge: false,
-        allowMergeCommit: false,
-        deleteBranchOnMerge: true,
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);
-
-const terraformMigrationGuide = new github.Repository("terraform-migration-guide",
-    {
-        name: 'terraform-migration-guide',
-        hasDownloads: false,
         hasIssues: true,
         hasProjects: false,
         hasWiki: false,

@@ -1,0 +1,5 @@
+name: terraform-migration-guide
+description: Terraform to Pulumi migration guide
+type: information
+topics:
+  - terraform

@@ -1,25 +1,7 @@
 import * as github from "@pulumi/github";
-import {TeamType} from "../configTypes";
+import {Team} from "../configTypes";
 
-// const boardmembers = [
-//     'ringods',
-//     'cobraz',
-//     'usrbinkat',
-//     'rawkode',
-//     'tenwit'
-// ];
-
-// boardmembers.map((userid) => {
-//     const board_ringods = new github.TeamMembership(`board_${userid}`,
-//         {
-//             teamId: board.id,
-//             username: userid,
-//             role: 'maintainer'
-//         }
-//     )
-// })
-
-export function configureOrganizationTeams(teamArgs: TeamType[]): Map<string, github.Team> {
+export function configureOrganizationTeams(teamArgs: Team[]): Map<string, github.Team> {
     let teams = new Map<string, github.Team>()
     teamArgs.map((teamInfo) => {
         teams.set(teamInfo.name, new github.Team(teamInfo.name, {
@@ -29,5 +11,3 @@ export function configureOrganizationTeams(teamArgs: TeamType[]): Map<string, gi
     })
     return teams
 }
-
-// export const all_teams = [board]
