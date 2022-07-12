@@ -1,2 +1,4 @@
 username: stack72
 role: admin
+member:
+  - pulumi-configcat
