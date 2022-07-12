@@ -235,28 +235,3 @@ const terraformMigrationGuide = new github.Repository("terraform-migration-guide
         transformations: [standardRepoTags]
     }
 );
-
-const pulumi_astra = new github.Repository("pulumi-astra",
-    {
-        name: 'pulumi-astra',
-        description: 'Pulumi provider for datastax astra db',
-        hasDownloads: true,
-        hasIssues: true,
-        hasProjects: true, // false
-        hasWiki: true, // false
-        visibility: 'public',
-        vulnerabilityAlerts: true,
-        allowAutoMerge: false,
-        allowRebaseMerge: true,
-        allowSquashMerge: true, // false
-        allowMergeCommit: true,
-        deleteBranchOnMerge: false,
-        template: {
-            owner: 'pulumi',
-            repository: 'pulumi-tf-provider-boilerplate'
-        }
-    },
-    {
-        transformations: [standardRepoTags]
-    }
-);

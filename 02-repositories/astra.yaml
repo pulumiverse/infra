@@ -1,0 +1,4 @@
+name: pulumi-astra
+description: Pulumi provider for datastax astra db
+type: provider
+import: true
