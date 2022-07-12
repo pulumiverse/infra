@@ -21,6 +21,7 @@ export const RepositoryType = RT.Record({
     type: RT.Union(RT.Literal('provider')),
     teams: RT.Array(RT.String).optional(),
     import: RT.Boolean.optional(),
+    template: RT.String.optional(),
 })
 
 export type TeamType = Static<typeof TeamType>
