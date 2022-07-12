@@ -4,4 +4,5 @@ maintainer:
   - governance_board
 member:
   - pulumi-concourse
+  - pulumi-configcat
   - pulumi-unifi

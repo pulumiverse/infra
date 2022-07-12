@@ -1,0 +1,4 @@
+name: pulumi-scaleway
+description: Pulumi provider for Scaleway, the European cloud provider
+type: provider
+import: true
