@@ -1,0 +1,4 @@
+name: pulumi-ibm
+description: Pulumi provider for IBM Cloud
+type: provider
+template: pulumi-tf-provider-boilerplate
