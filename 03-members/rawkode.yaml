@@ -2,3 +2,5 @@ username: rawkode
 role: admin
 maintainer:
   - governance_board
+member:
+  - terraform-migration-guide
