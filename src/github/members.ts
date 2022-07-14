@@ -15,42 +15,68 @@ export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map
         });
         members.set(memberInfo.username, orgMembership);
 
-        let createTeamMembership = (requiredTeam: string, role: string) => {
-            pulumi.log.debug(`Applying change: ${memberInfo.username} as member to ${requiredTeam}`)
-            if (allTeams.has(requiredTeam)) {
-                let team = allTeams.get(requiredTeam)
-                if (!team) {
-                    throw new Error(`Team ${requiredTeam} not found`)
+        let createMembership = (requiredTeamOrRepo: string, role: string) => {
+            pulumi.log.debug(`Applying change: ${memberInfo.username} as member to ${requiredTeamOrRepo}`)
+            if (allTeams.has(requiredTeamOrRepo) || allRepositories.has(requiredTeamOrRepo)) {
+                let team = allTeams.get(requiredTeamOrRepo)
+                let repo = allRepositories.get(requiredTeamOrRepo)
+                if (!team && !repo) {
+                    throw new Error(`Team or Repository ${requiredTeamOrRepo} not found`)
                 }
-                new github.TeamMembership(`${requiredTeam}_${memberInfo.username}`,
-                    {
-                        username: memberInfo.username,
-                        teamId: team.id,
-                        role: role
-                    },
-                    {
-                        parent: allTeams.get(requiredTeam),
-                        dependsOn: orgMembership, // Can only add to team after being added to the organization
-                        aliases: memberInfo.teamMembershipImport ? [{
-                            parent: pulumi.rootStackResource
-                        }, {
-                            name: memberInfo.teamMembershipImport
-                        }] : []
-                    }
-                )
+                if (team) {
+                    new github.TeamMembership(`${requiredTeamOrRepo}_${memberInfo.username}`,
+                        {
+                            username: memberInfo.username,
+                            teamId: team.id,
+                            role: role
+                        },
+                        {
+                            parent: allTeams.get(requiredTeamOrRepo),
+                            dependsOn: orgMembership, // Can only add to team after being added to the organization
+                            aliases: memberInfo.teamMembershipImport ? [
+                                {
+                                    parent: pulumi.rootStackResource
+                                },
+                                {
+                                    name: memberInfo.teamMembershipImport
+                                }
+                            ] : []
+                        }
+                    )
+                } else if (repo) {
+                    new github.RepositoryCollaborator(`${requiredTeamOrRepo}_${memberInfo.username}`,
+                        {
+                            username: memberInfo.username,
+                            repository: repo.id,
+                            permission: role === 'maintainer' ? 'maintain' : 'push'
+                        },
+                        {
+                            parent: allTeams.get(requiredTeamOrRepo),
+                            dependsOn: orgMembership, // Can only add to team after being added to the organization
+                            aliases: memberInfo.teamMembershipImport ? [
+                                {
+                                    parent: pulumi.rootStackResource
+                                },
+                                {
+                                    name: memberInfo.teamMembershipImport
+                                }
+                            ] : []
+                        }
+                    )
+                }
             } else {
-                let message = `Team ${JSON.stringify(requiredTeam)} doesn't exist for member ${memberInfo.username}. Did you create the team or is this a typo?`
+                let message = `Team ${JSON.stringify(requiredTeamOrRepo)} doesn't exist for member ${memberInfo.username}. Did you create the team or is this a typo?`
                 throw new Error(message);
             }
         };
 
-        memberInfo.maintainer?.forEach((team) => {
-            pulumi.log.debug(`Configure ${memberInfo.username} as maintainer to ${team}`)
-            createTeamMembership(team, 'maintainer')
+        memberInfo.maintainer?.forEach((teamOrRepo) => {
+            pulumi.log.debug(`Configure ${memberInfo.username} as maintainer to ${teamOrRepo}`)
+            createMembership(teamOrRepo, 'maintainer')
         })
-        memberInfo.member?.forEach((team) => {
-            pulumi.log.debug(`Configure ${memberInfo.username} as member to ${team}`)
-            createTeamMembership(team, 'member')
+        memberInfo.member?.forEach((teamOrRepo) => {
+            pulumi.log.debug(`Configure ${memberInfo.username} as member to ${teamOrRepo}`)
+            createMembership(teamOrRepo, 'member')
         })
 
 
