@@ -5,9 +5,14 @@ This repository manages as much as possible of this setup using Pulumi IaC.
 
 ## Github
 
-**Status:** Automated
+**Status:** Partially Automated
 
-Manages the complete organization on Github using Pulumi code:
+The Github provider doesn't contain the functionality to configure all of the organization level settings. The following settings
+are controlled manually as a result:
+
+* [Workflow permissions](https://github.com/organizations/pulumiverse/settings/actions): default set to `Read repository contents permission` instead of `Read and write permission`
+
+The following resources within the organization on Github is managed by Pulumi code:
 
 * Teams
 * Membership to organization and teams
