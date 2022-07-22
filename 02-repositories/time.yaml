@@ -1,0 +1,5 @@
+name: pulumi-time
+description: Pulumi provider time
+type: provider
+template: pulumi-provider-boilerplate
+import: true
