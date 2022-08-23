@@ -1,0 +1,87 @@
+name: prerequisites
+
+on:
+  workflow_call:
+    inputs:
+      provider:
+        required: true
+        type: string
+
+jobs:
+  prerequisites:
+    name: prerequisites
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        dotnetversion:
+        - 3.1.301
+        goversion:
+        - 1.18.x
+        nodeversion:
+        - 14.x
+        pythonversion:
+        - "3.7"
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Checkout Scripts Repo
+      uses: actions/checkout@v2
+      with:
+        path: ci-scripts
+        repository: pulumi/scripts
+    - name: Unshallow clone for tags
+      run: git fetch --prune --unshallow --tags
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{matrix.goversion}}
+    - name: Install pulumictl
+      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      with:
+        repo: pulumi/pulumictl
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Install Pulumi CLI
+      uses: pulumi/action-install-pulumi-cli@v2
+    - if: github.event_name == 'pull_request'
+      name: Install Schema Tools
+      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      with:
+        repo: mikhailshilkov/schema-tools
+    - name: Build tfgen & provider binaries
+      run: make provider
+    - if: github.event_name == 'pull_request'
+      name: Check Schema is Valid
+      run: >-
+        echo 'SCHEMA_CHANGES<<EOF' >> $GITHUB_ENV
+
+        schema-tools compare ${{ inputs.provider }} master --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
+
+        echo 'EOF' >> $GITHUB_ENV
+    - if: github.event_name == 'pull_request'
+      name: Comment on PR with Details of Schema Check
+      uses: thollander/actions-comment-pull-request@v1
+      with:
+        GITHUB_TOKEN: ${{ github.token }}
+        message: |
+          ### Does the PR have any schema changes?
+
+          ${{ env.SCHEMA_CHANGES }}
+    - name: Tar provider binaries
+      run: tar -zcf ${{ github.workspace }}/bin/provider.tar.gz -C ${{
+        github.workspace }}/bin/ pulumi-resource-${{ inputs.provider }}
+        pulumi-tfgen-${{ inputs.provider }}
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.provider }}-provider.tar.gz
+        path: ${{ github.workspace }}/bin/provider.tar.gz
+    # Can we notify in #Pulumiverse channel on community slack?
+    # - if: failure() && github.event_name == 'push'
+    #   name: Notify Slack
+    #   uses: 8398a7/action-slack@v3
+    #   with:
+    #     author_name: Failure in building provider prerequisites
+    #     fields: repo,commit,author,action
+    #     status: ${{ job.status }}
