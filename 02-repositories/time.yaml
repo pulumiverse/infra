@@ -1,5 +1,5 @@
 name: pulumi-time
-description: Pulumi provider time
+description: Pulumi Time provider used to interact with time-based resources.
 type: provider
-template: pulumi-provider-boilerplate
+template: pulumi-tf-provider-boilerplate
 import: true

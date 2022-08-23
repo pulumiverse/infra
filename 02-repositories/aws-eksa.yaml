@@ -1,5 +1,4 @@
 name: pulumi-aws-eksa
 description: Pulumi package for AWS EKS Anywhere
 type: provider
-template: pulumi-tf-provider-boilerplate
 import: true
