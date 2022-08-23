@@ -102,28 +102,8 @@ abstract class BaseRepository extends pulumi.ComponentResource {
 
 class ProviderRepository extends BaseRepository {
 
-    private _repositoryTeam: github.Team;
-
     constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
         super('pulumiverse:github:ProviderRepository', name, args, opts);
-
-        this._repositoryTeam = new github.Team(name,
-            {
-                name: name,
-                description: `Team working on ${name}`
-            },
-            {
-                parent: this
-            }
-        );
-        args.allTeams.set(name, this._repositoryTeam);
-
-        this.addTeamMembership(name, name, args.allTeams);
-
-    }
-
-    get team(): github.Team {
-        return this._repositoryTeam
     }
 
     repositoryTransformations() : pulumi.ResourceTransformation[] {
