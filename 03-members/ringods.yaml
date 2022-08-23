@@ -1,6 +1,6 @@
 username: ringods
 role: admin
-push:
+admin:
   - pulumi-concourse
   - pulumi-configcat
   - pulumi-unifi

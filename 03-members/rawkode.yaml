@@ -2,3 +2,4 @@ username: rawkode
 role: admin
 admin:
   - terraform-migration-guide
+  - pulumi-doppler

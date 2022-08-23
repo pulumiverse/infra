@@ -1,0 +1,4 @@
+name: pulumi-aws-eksa
+description: Pulumi package for AWS EKS Anywhere
+type: provider
+import: true
