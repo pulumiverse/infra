@@ -11,8 +11,11 @@ export const Member = RT.Record({
     role: RT.String.optional(),
     membershipImport: RT.String.optional(),
     teamMembershipImport: RT.String.optional(),
-    maintainer: RT.Array(RT.String).optional(),
-    member: RT.Array(RT.String).optional(),
+    pull: RT.Array(RT.String).optional(),
+    triage: RT.Array(RT.String).optional(),
+    push: RT.Array(RT.String).optional(),
+    maintain: RT.Array(RT.String).optional(),
+    admin: RT.Array(RT.String).optional(),
 })
 
 export const Repository = RT.Record({

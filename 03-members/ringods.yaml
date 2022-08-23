@@ -1,8 +1,6 @@
 username: ringods
 role: admin
-maintainer:
-  - governance_board
-member:
+push:
   - pulumi-concourse
   - pulumi-configcat
   - pulumi-unifi
