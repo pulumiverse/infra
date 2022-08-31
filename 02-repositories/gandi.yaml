@@ -1,0 +1,4 @@
+name: pulumi-gandi
+description: Pulumi provider for Gandi domains / cloud
+type: provider
+template: pulumi-tf-provider-boilerplate
