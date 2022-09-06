@@ -1,4 +1,0 @@
-name: pulumi-ovh
-description: Pulumi provider for OVH
-type: provider
-template: pulumi-tf-provider-boilerplate

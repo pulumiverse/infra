@@ -1,4 +1,0 @@
-name: pulumi-scaleway
-description: Pulumi provider for Scaleway, the European cloud provider
-type: provider
-template: pulumi-tf-provider-boilerplate
