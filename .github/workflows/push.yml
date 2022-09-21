@@ -3,11 +3,16 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'org-mgmt/**'
 
 jobs:
   apply-changes:
     name: Apply changes
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: org-mgmt
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
