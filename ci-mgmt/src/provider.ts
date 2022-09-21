@@ -24,6 +24,10 @@ export function buildProviderFiles(basePath: string, provider: string): Provider
 export function generateProviderFiles(config: BridgedConfig) {
   const githubWorkflowsDir = path.join(path.join(".github", "workflows"));
   const files: ProviderFile[] = [
+    {
+      path: path.join(githubWorkflowsDir, "run-regenerate-workflows.yml"),
+      data: wf.RegenerateWorkflowsWorkflow(config),
+    },
     // {
     //   path: path.join(githubWorkflowsDir, "run-acceptance-tests.yml"),
     //   data: wf.RunAcceptanceTestsWorkflow("run-acceptance-tests", config),

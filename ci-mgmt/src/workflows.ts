@@ -892,6 +892,20 @@ export class WarnCodegenJob implements NormalJob {
   }
 }
 
+export class RegenerateWorkflowsJob implements NormalJob {
+  "runs-on" = "ubuntu-latest";
+  steps: NormalJob["steps"];
+  name: string;
+  constructor(name: string, opts: BridgedConfig) {
+    this.name = name;
+    this.steps = [
+      steps.CheckoutRepoStep(),
+      // TODO add more steps from https://github.com/pulumi/ci-mgmt/blob/master/.github/workflows/update-workflows-single-bridged-provider.yml
+    ];
+    Object.assign(this, { name });
+  }
+}
+
 export function ModerationWorkflow(
   name: string,
   opts: BridgedConfig
@@ -910,6 +924,25 @@ export function ModerationWorkflow(
 
     jobs: {
       warn_codegen: new WarnCodegenJob("warn_codegen"),
+    },
+  };
+  return workflow;
+}
+
+export function RegenerateWorkflowsWorkflow(
+  opts: BridgedConfig
+): GithubWorkflow {
+  const workflow: GithubWorkflow = {
+    name: "regenerate-workflows",
+    on: {
+      workflow_dispatch: {},
+    },
+    env: {
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
+    },
+
+    jobs: {
+      regenerate: new RegenerateWorkflowsJob("regenerate", opts),
     },
   };
   return workflow;
