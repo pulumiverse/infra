@@ -899,7 +899,10 @@ export class RegenerateWorkflowsJob implements NormalJob {
   constructor(name: string, opts: BridgedConfig) {
     this.name = name;
     this.steps = [
-      steps.CheckoutRepoStep(),
+      steps.CheckoutRepoOnPathStep("infra","pulumiverse/infra"),
+      steps.CheckoutRepoOnPathStep(`${opts.provider}`,`pulumiverse/pulumi-${opts.provider}`),
+      steps.RegenerateWorkflows(opts.provider),
+      steps.PullRequest(opts.provider),
       // TODO add more steps from https://github.com/pulumi/ci-mgmt/blob/master/.github/workflows/update-workflows-single-bridged-provider.yml
     ];
     Object.assign(this, { name });
@@ -936,6 +939,10 @@ export function RegenerateWorkflowsWorkflow(
     name: "regenerate-workflows",
     on: {
       workflow_dispatch: {},
+    },
+    permissions: {
+      contents: "write",
+      "pull-requests": "write",
     },
     env: {
       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
