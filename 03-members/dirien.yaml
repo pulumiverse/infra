@@ -1,3 +1,4 @@
 username: dirien
 maintain:
   - pulumi-aquasec
+  - pulumi-exoscale

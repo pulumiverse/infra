@@ -1,0 +1,5 @@
+name: pulumi-exoscale
+description: Pulumi provider for Exoscale
+type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
