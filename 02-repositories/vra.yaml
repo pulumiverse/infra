@@ -1,0 +1,5 @@
+name: pulumi-vra
+description: Learn how to make a Pulumi provider and make one for VRA.
+type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
