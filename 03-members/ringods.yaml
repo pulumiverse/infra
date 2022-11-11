@@ -3,4 +3,5 @@ role: admin
 admin:
   - pulumi-concourse
   - pulumi-configcat
+  - pulumi-matchbox
   - pulumi-unifi
