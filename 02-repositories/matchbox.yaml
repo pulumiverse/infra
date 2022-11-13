@@ -1,0 +1,4 @@
+name: pulumi-matchbox
+description: Pulumi provider for the Matchbox iPXE server
+type: provider
+template: pulumi-tf-provider-boilerplate
