@@ -6,6 +6,18 @@ on:
       provider:
         required: true
         type: string
+      dotnetversion:
+        required: true
+        type: string
+      goversion:
+        required: true
+        type: string
+      nodeversion:
+        required: true
+        type: string
+      pythonversion:
+        required: true
+        type: string
 
 # needs: prerequisites
 
@@ -17,9 +29,13 @@ jobs:
       fail-fast: true
       matrix:
         dotnetversion:
-        - 3.1.301
+        - ${{ inputs.dotnetversion }}
         goversion:
-        - 1.18.x
+        - ${{ inputs.goversion }}
+        nodeversion:
+        - ${{ inputs.nodeversion }}
+        pythonversion:
+        - ${{ inputs.pythonversion }}
         # javaversion:
         # - "11"
         language:
@@ -28,10 +44,6 @@ jobs:
         - dotnet
         - go
         # - java
-        nodeversion:
-        - 14.x
-        pythonversion:
-        - "3.7"
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v2
