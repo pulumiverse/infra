@@ -7,17 +7,21 @@ on:
         required: true
         type: string
       dotnetversion:
-        required: true
+        required: false
         type: string
+        default: "3.1.301"
       goversion:
-        required: true
+        required: false
         type: string
+        default: "1.18.x"
       nodeversion:
-        required: true
+        required: false
         type: string
+        default: "14.x"
       pythonversion:
-        required: true
+        required: false
         type: string
+        default: "3.7"
 
 jobs:
   prerequisites:
