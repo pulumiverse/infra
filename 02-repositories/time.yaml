@@ -2,4 +2,3 @@ name: pulumi-time
 description: Pulumi Time provider used to interact with time-based resources.
 type: provider
 template: pulumi-tf-provider-boilerplate
-import: true
