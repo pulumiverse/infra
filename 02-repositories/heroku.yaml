@@ -2,4 +2,3 @@ name: pulumi-heroku
 description: Pulumi provider for Heroku
 type: provider
 template: pulumi-tf-provider-boilerplate
-import: true
