@@ -1,0 +1,4 @@
+name: pulumi-hcp
+description: A Pulumi provider for interacting with the Hashicorp Cloud Platform
+type: provider
+import: true
