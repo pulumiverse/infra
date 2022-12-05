@@ -24,7 +24,6 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 description: args.description,
                 hasWiki: false,
                 hasIssues: true,
-                hasDownloads: args.import ? true : undefined,
                 hasProjects: false,
                 visibility: 'public',
                 deleteBranchOnMerge: true,
