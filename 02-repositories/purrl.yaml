@@ -2,7 +2,6 @@ name: pulumi-purrl
 description: A Pulumi native provider for making API calls
 type: provider
 template: pulumi-provider-boilerplate
-import: true
 topics:
   - infrastructure-as-code
   - golang
