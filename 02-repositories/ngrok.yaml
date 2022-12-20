@@ -1,0 +1,4 @@
+name: pulumi-ngrok
+description: Pulumi provider for ngrok
+type: provider
+template: pulumi-tf-provider-boilerplate
