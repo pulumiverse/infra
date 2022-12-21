@@ -1,0 +1,4 @@
+name: pulumi-statuscake
+description: Pulumi provider for StatusCake
+type: provider
+template: pulumi-tf-provider-boilerplate
