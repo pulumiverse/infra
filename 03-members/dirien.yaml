@@ -4,3 +4,4 @@ maintain:
   - pulumi-exoscale
 admin:
   - pulumi-purrl
+  - pulumi-harbor
