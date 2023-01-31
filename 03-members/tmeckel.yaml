@@ -1,3 +1,5 @@
 username: tmeckel
 push:
   - pulumi-time
+maintain:
+  - pulumi-mssql
