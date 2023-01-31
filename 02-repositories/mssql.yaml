@@ -1,0 +1,3 @@
+name: pulumi-mssql
+description: Pulumi provider for Microsoft SQL Server and Azure SQL
+type: provider
