@@ -1,0 +1,4 @@
+name: pulumi-acme
+description: Pulumi provider for ACME
+type: provider
+template: pulumi-tf-provider-boilerplate
