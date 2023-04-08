@@ -1,2 +1,4 @@
 username: cobraz
 role: admin
+maintain:
+  - pulumi-github-credentials
