@@ -1,4 +1,4 @@
-username: cobraz
+username: simenandre
 role: admin
 maintain:
   - pulumi-github-credentials
