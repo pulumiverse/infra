@@ -1,4 +1,4 @@
 username: simenandre
 role: admin
-maintain:
+admin:
   - pulumi-github-credentials
