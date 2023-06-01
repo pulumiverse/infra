@@ -1,0 +1,5 @@
+username: dbhagen
+push:
+  - pulumi-fortios
+maintain:
+  - pulumi-fortios
