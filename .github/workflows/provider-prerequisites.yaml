@@ -42,7 +42,7 @@ jobs:
       uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
         token: ${{ github.token }}
-        repo: mikhailshilkov/schema-tools
+        repo: pulumi/schema-tools
     - name: Build tfgen & provider binaries
       run: make provider
     - if: github.event_name == 'pull_request'
