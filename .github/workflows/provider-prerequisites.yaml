@@ -26,39 +26,37 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        dotnetversion:
-        - ${{ inputs.dotnetversion }}
-        goversion:
-        - ${{ inputs.goversion }}
-        nodeversion:
-        - ${{ inputs.nodeversion }}
-        pythonversion:
-        - ${{ inputs.pythonversion }}
+        language:
+          - nodejs
+          - python
+          - dotnet
+          - go
+          # - java
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Checkout Scripts Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ci-scripts
         repository: pulumi/scripts
     - name: Unshallow clone for tags
       run: git fetch --prune --unshallow --tags
     - name: Install Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: ${{matrix.goversion}}
+        go-version: ${{inputs.goversion}}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      uses: jaxxstorm/action-install-gh-release@v1.5.0
       with:
         repo: pulumi/pulumictl
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Install Pulumi CLI
-      uses: pulumi/action-install-pulumi-cli@v2
+      uses: pulumi/actions@v4
     - if: github.event_name == 'pull_request'
       name: Install Schema Tools
-      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      uses: jaxxstorm/action-install-gh-release@v1.5.0
       with:
         repo: mikhailshilkov/schema-tools
     - name: Build tfgen & provider binaries

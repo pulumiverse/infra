@@ -28,16 +28,6 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        dotnetversion:
-        - ${{ inputs.dotnetversion }}
-        goversion:
-        - ${{ inputs.goversion }}
-        nodeversion:
-        - ${{ inputs.nodeversion }}
-        pythonversion:
-        - ${{ inputs.pythonversion }}
-        # javaversion:
-        # - "11"
         language:
         - nodejs
         - python
@@ -46,45 +36,45 @@ jobs:
         # - java
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Checkout Scripts Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ci-scripts
         repository: pulumi/scripts
     - name: Unshallow clone for tags
       run: git fetch --prune --unshallow --tags
     - name: Install Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: ${{matrix.goversion}}
+        go-version: ${{ inputs.goversion }}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      uses: jaxxstorm/action-install-gh-release@v1.5.0
       with:
         repo: pulumi/pulumictl
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Install Pulumi CLI
-      uses: pulumi/action-install-pulumi-cli@v2
+      uses: pulumi/actions@v4
     - name: Setup Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{matrix.nodeversion}}
+        node-version: ${{ inputs.nodeversion }}
         registry-url: https://registry.npmjs.org
     - name: Setup DotNet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{matrix.dotnetversion}}
+        dotnet-version: ${{ inputs.dotnetversion }}
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{matrix.pythonversion}}
+        python-version: ${{ inputs.pythonversion }}
     # - name: Setup Java
     #   uses: actions/setup-java@v3
     #   with:
     #     cache: gradle
     #     distribution: temurin
-    #     java-version: ${{matrix.javaversion}}
+    #     java-version: ${{ inputs.javaversion }}
     - name: Download provider + tfgen binaries
       uses: actions/download-artifact@v2
       with:
