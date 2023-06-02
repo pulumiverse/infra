@@ -49,11 +49,10 @@ jobs:
       with:
         go-version: ${{ inputs.goversion }}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.5.0
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
+        token: ${{ github.token }}
         repo: pulumi/pulumictl
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     - name: Install Pulumi CLI
       uses: pulumi/actions@v4
     - name: Setup Node

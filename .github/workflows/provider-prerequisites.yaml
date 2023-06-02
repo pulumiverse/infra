@@ -6,16 +6,7 @@ on:
       provider:
         required: true
         type: string
-      dotnetversion:
-        required: true
-        type: string
       goversion:
-        required: true
-        type: string
-      nodeversion:
-        required: true
-        type: string
-      pythonversion:
         required: true
         type: string
 
@@ -25,13 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      matrix:
-        language:
-          - nodejs
-          - python
-          - dotnet
-          - go
-          # - java
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -47,17 +31,17 @@ jobs:
       with:
         go-version: ${{inputs.goversion}}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.5.0
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
+        token: ${{ github.token }}
         repo: pulumi/pulumictl
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     - name: Install Pulumi CLI
       uses: pulumi/actions@v4
     - if: github.event_name == 'pull_request'
       name: Install Schema Tools
-      uses: jaxxstorm/action-install-gh-release@v1.5.0
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
+        token: ${{ github.token }}
         repo: mikhailshilkov/schema-tools
     - name: Build tfgen & provider binaries
       run: make provider
