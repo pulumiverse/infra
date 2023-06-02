@@ -50,7 +50,7 @@ jobs:
       run: >-
         echo 'SCHEMA_CHANGES<<EOF' >> $GITHUB_ENV
 
-        schema-tools compare ${{ inputs.provider }} master --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
+        schema-tools compare -p ${{ inputs.provider }} -o ${{ github.event.repository.default_branch }} -n --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
 
         echo 'EOF' >> $GITHUB_ENV
     - if: github.event_name == 'pull_request'
