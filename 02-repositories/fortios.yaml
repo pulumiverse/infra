@@ -1,3 +1,4 @@
 name: pulumi-fortios
 description: Pulumi provider for managing Fortinet FortiOS
 type: provider
+template: pulumi-tf-provider-boilerplate
