@@ -8,13 +8,13 @@
   },
   "main": "src/index.ts",
   "scripts": {},
-  "prettier": "@cobraz/prettier-config",
+  "prettier": "@simenandre/prettier",
   "eslintConfig": {
     "extends": "@bjerk/eslint-config"
   },
   "devDependencies": {
     "@bjerk/eslint-config": "^1.0.0",
-    "@cobraz/prettier-config": "^1.0.1",
+    "@simenandre/prettier": "^3.0.2",
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^16.11.38",
     "typescript": "^4.7.3"

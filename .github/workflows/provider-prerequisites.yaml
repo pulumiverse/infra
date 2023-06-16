@@ -61,6 +61,8 @@ jobs:
       uses: jaxxstorm/action-install-gh-release@v1.2.0
       with:
         repo: mikhailshilkov/schema-tools
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Build tfgen & provider binaries
       run: make provider
     - if: github.event_name == 'pull_request'

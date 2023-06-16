@@ -1,0 +1,4 @@
+name: pulumi-zitadel
+description: Pulumi provider for Zitadel
+type: provider
+template: pulumi-tf-provider-boilerplate
