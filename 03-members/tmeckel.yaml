@@ -3,3 +3,4 @@ push:
   - pulumi-time
 maintain:
   - pulumi-mssql
+  - pulumi-fortios
