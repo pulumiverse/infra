@@ -18,12 +18,19 @@ export const Member = RT.Record({
     admin: RT.Array(RT.String).optional(),
 })
 
+export const Labels = RT.Record({
+    name: RT.String,
+    color: RT.String,
+    description: RT.String.optional(),
+})
+
 export const Repository = RT.Record({
     name: RT.String,
     description: RT.String,
     type: RT.Union(RT.Literal('administrative'), RT.Literal('provider'), RT.Literal('information')),
     teams: RT.Array(RT.String).optional(),
     topics: RT.Array(RT.String).optional(),
+    labels: RT.Array(Labels).optional(),
     import: RT.Boolean.optional(),
     template: RT.String.optional(),
 })

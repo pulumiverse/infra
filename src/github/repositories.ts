@@ -3,10 +3,17 @@ import * as pulumi from "@pulumi/pulumi";
 
 import { Repository } from "../configTypes";
 
+interface LabelArgs {
+    name: string,
+    color: string,
+    description: string,
+}
+
 interface RepositoryArgs {
     description: pulumi.Input<string>,
     teams: pulumi.Input<string[]>,
     topics: pulumi.Input<string[]>,
+    labels: LabelArgs[],
     allTeams: Map<string, github.Team>;
     import: boolean;
     template: pulumi.Input<string> | undefined;
@@ -30,7 +37,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 vulnerabilityAlerts: true,
                 topics: args.topics,
                 template: args.template ? {
-                    owner:'pulumi',
+                    owner: 'pulumi',
                     repository: args.template,
                 } : undefined
             },
@@ -63,13 +70,30 @@ abstract class BaseRepository extends pulumi.ComponentResource {
             }
         );
 
+
+        if (args.labels) {
+            pulumi.output(args.labels).apply((labels) => {
+                labels.forEach((label) => {
+                    new github.IssueLabel(`${name}_label_${label}`,
+                        {
+                            repository: this._repository.name,
+                            name: label.name,
+                            description: label.description,
+                            color: label.color,
+                        }, {
+                            parent: this,
+                        });
+                })
+            })
+        }
+
         pulumi.output(args.teams).apply((teams) => {
             teams.forEach((requiredTeam) => this.addTeamMembership(name, requiredTeam, args.allTeams));
-        }) 
+        })
 
     }
 
-    abstract repositoryTransformations() : pulumi.ResourceTransformation[];
+    abstract repositoryTransformations(): pulumi.ResourceTransformation[];
 
     get repository(): github.Repository {
         return this._repository
@@ -106,7 +130,7 @@ class ProviderRepository extends BaseRepository {
         super('pulumiverse:github:ProviderRepository', name, args, opts);
     }
 
-    repositoryTransformations() : pulumi.ResourceTransformation[] {
+    repositoryTransformations(): pulumi.ResourceTransformation[] {
         return [standardRepoTags, providerRepoTags]
     }
 
@@ -120,7 +144,7 @@ class AdministrativeRepository extends BaseRepository {
         super('pulumiverse:github:AdministrativeRepository', name, args, opts);
     }
 
-    repositoryTransformations() : pulumi.ResourceTransformation[] {
+    repositoryTransformations(): pulumi.ResourceTransformation[] {
         return [standardRepoTags]
     }
 
@@ -133,15 +157,28 @@ class InformationRepository extends BaseRepository {
         super('pulumiverse:github:InformationRepository', name, args, opts);
     }
 
-    repositoryTransformations() : pulumi.ResourceTransformation[] {
+    repositoryTransformations(): pulumi.ResourceTransformation[] {
         return [standardRepoTags]
     }
 
 }
 
-export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>) : Map<string, github.Repository> {
+export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>): Map<string, github.Repository> {
     let repositories = new Map<string, github.Repository>()
     repositoryArgs.map((repositoryInfo) => {
+
+        let labelArgs: LabelArgs[] = []
+        if (repositoryInfo.labels) {
+            for (let label of repositoryInfo.labels) {
+                if (label.name && label.color && label.description) {
+                    labelArgs.push({
+                        name: label.name,
+                        color: label.color,
+                        description: label.description,
+                    })
+                }
+            }
+        }
 
         switch (repositoryInfo.type) {
             case 'administrative': {
@@ -149,6 +186,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     description: repositoryInfo.description,
                     teams: repositoryInfo.teams || [],
                     topics: repositoryInfo.topics || [],
+                    labels: labelArgs || [],
                     allTeams: allTeams,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
@@ -160,6 +198,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     description: repositoryInfo.description,
                     teams: repositoryInfo.teams || [],
                     topics: repositoryInfo.topics || [],
+                    labels: labelArgs || [],
                     allTeams: allTeams,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
@@ -168,17 +207,20 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
             }
             case 'information': {
                 repositories.set(repositoryInfo.name, new InformationRepository(repositoryInfo.name, {
-                    description: repositoryInfo.description,
-                    teams: repositoryInfo.teams || [],
-                    topics: repositoryInfo.topics || [],
-                    allTeams: allTeams,
-                    import: repositoryInfo.import || false,
-                    template: repositoryInfo.template,
-                }).repository);
+                        description: repositoryInfo.description,
+                        teams: repositoryInfo.teams || [],
+                        topics: repositoryInfo.topics || [],
+                        labels: labelArgs || [],
+                        allTeams:
+                        allTeams,
+                        import: repositoryInfo.import || false,
+                        template: repositoryInfo.template,
+                    }).repository
+                );
                 break;
             }
         }
-    });
+    })
     return repositories;
 }
 
@@ -187,7 +229,7 @@ function standardRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
         let customTopics = args.props.topics as string[];
         let allTopics = ['pulumi'].concat(customTopics);
         args.props.topics = allTopics;
-        return { props: args.props, opts: args.opts };
+        return {props: args.props, opts: args.opts};
     }
     return undefined
 }
@@ -197,7 +239,7 @@ function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
         let customTopics = args.props.topics as string[];
         let allTopics = ['pulumi-provider'].concat(customTopics);
         args.props.topics = allTopics;
-        return { props: args.props, opts: args.opts };
+        return {props: args.props, opts: args.opts};
     }
     return undefined
 }

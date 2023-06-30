@@ -5,3 +5,7 @@ template: pulumi-provider-boilerplate
 topics:
   - infrastructure-as-code
   - golang
+labels:
+  - name: dependencies
+    color: 0e8a16
+    description: Dependencies
