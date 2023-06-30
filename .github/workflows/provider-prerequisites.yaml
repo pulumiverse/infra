@@ -1,21 +1,16 @@
 name: prerequisites
 
+# Required permissions for this reusable workflow to work correctly. Must be set in the calling workflow
+# permissions: 
+#   pull-requests: write
+
 on:
   workflow_call:
     inputs:
       provider:
         required: true
         type: string
-      dotnetversion:
-        required: true
-        type: string
       goversion:
-        required: true
-        type: string
-      nodeversion:
-        required: true
-        type: string
-      pythonversion:
         required: true
         type: string
 
@@ -25,44 +20,34 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      matrix:
-        dotnetversion:
-        - ${{ inputs.dotnetversion }}
-        goversion:
-        - ${{ inputs.goversion }}
-        nodeversion:
-        - ${{ inputs.nodeversion }}
-        pythonversion:
-        - ${{ inputs.pythonversion }}
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Checkout Scripts Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ci-scripts
         repository: pulumi/scripts
     - name: Unshallow clone for tags
       run: git fetch --prune --unshallow --tags
     - name: Install Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: ${{matrix.goversion}}
+        go-version: ${{inputs.goversion}}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
+        token: ${{ github.token }}
         repo: pulumi/pulumictl
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     - name: Install Pulumi CLI
-      uses: pulumi/action-install-pulumi-cli@v2
+      uses: pulumi/actions@v4
     - if: github.event_name == 'pull_request'
       name: Install Schema Tools
-      uses: jaxxstorm/action-install-gh-release@v1.2.0
+      uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
-        repo: mikhailshilkov/schema-tools
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+        token: ${{ github.token }}
+        repo: pulumi/schema-tools
+        tag: v0.5.0
     - name: Build tfgen & provider binaries
       run: make provider
     - if: github.event_name == 'pull_request'
@@ -70,7 +55,7 @@ jobs:
       run: >-
         echo 'SCHEMA_CHANGES<<EOF' >> $GITHUB_ENV
 
-        schema-tools compare ${{ inputs.provider }} master --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
+        schema-tools compare -p ${{ inputs.provider }} -r github://api.github.com/${{ github.repository }} -o ${{ github.event.repository.default_branch }} -n --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
 
         echo 'EOF' >> $GITHUB_ENV
     - if: github.event_name == 'pull_request'
