@@ -1,5 +1,9 @@
 name: prerequisites
 
+# Required permissions for this reusable workflow to work correctly. Must be set in the calling workflow
+# permissions: 
+#   pull-requests: write
+
 on:
   workflow_call:
     inputs:
