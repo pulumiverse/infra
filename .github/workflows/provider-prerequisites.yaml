@@ -43,6 +43,7 @@ jobs:
       with:
         token: ${{ github.token }}
         repo: pulumi/schema-tools
+        tag: v0.5.0
     - name: Build tfgen & provider binaries
       run: make provider
     - if: github.event_name == 'pull_request'
@@ -50,7 +51,7 @@ jobs:
       run: >-
         echo 'SCHEMA_CHANGES<<EOF' >> $GITHUB_ENV
 
-        schema-tools compare -p ${{ inputs.provider }} -o ${{ github.event.repository.default_branch }} -n --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
+        schema-tools compare -p ${{ inputs.provider }} -r github://api.github.com/${{ github.repository }} -o ${{ github.event.repository.default_branch }} -n --local-path=provider/cmd/pulumi-resource-${{ inputs.provider }}/schema.json >> $GITHUB_ENV
 
         echo 'EOF' >> $GITHUB_ENV
     - if: github.event_name == 'pull_request'
