@@ -1,0 +1,19 @@
+name: PR assignment
+
+on:
+    pull_request:
+        types: [opened]
+
+jobs:
+    auto-assign:
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+        steps:
+            - name: 'Auto-assign issue'
+              uses: pozil/auto-assign-issue@v1
+              with:
+                repo-token: ${{ secrets.GITHUB_TOKEN }}
+                assignees: ringods, simenandre, dirien, usrbinkat, rebelopsio
+                numOfAssignee: 5
+                allowSelfAssign: false
