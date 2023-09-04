@@ -31,7 +31,11 @@ export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map
                         {
                             name: memberInfo.teamMembershipImport
                         }
-                    ] : []
+                    ] : [
+                        {
+                            parent: pulumi.rootStackResource
+                        }
+                    ]
                 }
             )
         }
