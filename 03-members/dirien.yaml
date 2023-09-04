@@ -1,8 +1,7 @@
 username: dirien
 role: admin
-maintain:
+admin:
   - pulumi-aquasec
   - pulumi-exoscale
-admin:
   - pulumi-purrl
   - pulumi-harbor
