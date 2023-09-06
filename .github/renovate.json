@@ -1,0 +1,9 @@
+{
+    "extends": [
+        "config:base"
+    ],
+    "timezone": "Europe/Brussels",
+    "schedule": [
+        "every weekend"
+    ]
+}
