@@ -13,7 +13,7 @@
     "extends": "@bjerk/eslint-config"
   },
   "devDependencies": {
-    "@bjerk/eslint-config": "^1.0.0",
+    "@bjerk/eslint-config": "^6.0.0",
     "@simenandre/prettier": "^3.0.2",
     "@tsconfig/node16": "^16.0.0",
     "@types/node": "^18.0.0",
