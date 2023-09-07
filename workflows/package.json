@@ -9,7 +9,7 @@
     "node": ">=16"
   },
   "volta": {
-    "node": "16.15.0"
+    "node": "18.17.1"
   },
   "scripts": {
     "discovery": "wget https://json.schemastore.org/github-workflow.json -O github-workflow.json && json2ts -i github-workflow.json -o src/github-workflow.d.ts --unreachableDefinitions --ignoreMinAndMaxItems"
