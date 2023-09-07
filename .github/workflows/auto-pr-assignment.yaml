@@ -8,7 +8,7 @@ jobs:
     auto-assign:
         runs-on: ubuntu-latest
         permissions:
-            issues: write
+            pull-requests: write
         steps:
             - name: 'Auto-assign issue'
               uses: pozil/auto-assign-issue@v1
