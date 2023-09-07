@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "repository": "github:pulumiverse/infra",
   "engines": {
-    "node": ">=16.14"
+    "node": ">=18"
   },
   "main": "src/index.ts",
   "scripts": {},
