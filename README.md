@@ -1,4 +1,4 @@
-# Pulumiverse Infrastructure setup
+# Pulumiverse Infrastructure setup (test)
 
 The Pulumiverse organization has some infrastructure to support its operation. 
 This repository manages as much as possible of this setup using Pulumi IaC.
