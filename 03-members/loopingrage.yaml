@@ -1,0 +1,4 @@
+username: loopingrage
+push:
+  - pulumi-astra
+  - pulumi-zitadel
