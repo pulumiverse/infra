@@ -17,6 +17,7 @@ interface RepositoryArgs {
     allTeams: Map<string, github.Team>;
     import: boolean;
     template: pulumi.Input<string> | undefined;
+    removable: boolean;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -50,6 +51,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                     }
                 ],
                 transformations: this.repositoryTransformations(),
+                protect: !args.removable
             }
         );
         const mainBranchProtection = new github.BranchProtection(`${name}_protect_main`,
@@ -190,6 +192,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     allTeams: allTeams,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
+                    removable: repositoryInfo.removable || false,
                 }).repository);
                 break;
             }
@@ -202,6 +205,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     allTeams: allTeams,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
+                    removable: repositoryInfo.removable || false,
                 }).repository);
                 break;
             }
@@ -215,6 +219,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                         allTeams,
                         import: repositoryInfo.import || false,
                         template: repositoryInfo.template,
+                        removable: repositoryInfo.removable || false,
                     }).repository
                 );
                 break;
