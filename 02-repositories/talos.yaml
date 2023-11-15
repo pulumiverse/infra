@@ -1,0 +1,4 @@
+name: pulumi-talos
+description: Pulumi provider for Talos
+type: provider
+template: pulumi-provider-boilerplate
