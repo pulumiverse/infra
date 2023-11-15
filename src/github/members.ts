@@ -52,7 +52,6 @@ export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map
                         permission: role
                     },
                     {
-                        parent: repo,
                         dependsOn: orgMembership, // Can only add to repo after being added to the organization
                         aliases: memberInfo.teamMembershipImport ? [
                             {
@@ -63,7 +62,7 @@ export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map
                             }
                         ] : [
                             {
-                                parent: pulumi.rootStackResource
+                                parent: repo
                             }
                         ]
                     }
