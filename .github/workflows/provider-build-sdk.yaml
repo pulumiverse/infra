@@ -61,7 +61,7 @@ jobs:
         node-version: ${{ inputs.nodeversion }}
         registry-url: https://registry.npmjs.org
     - name: Setup DotNet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnetversion }}
     - name: Setup Python
