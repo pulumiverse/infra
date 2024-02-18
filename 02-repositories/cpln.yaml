@@ -1,0 +1,4 @@
+name: pulumi-cpln
+description: Pulumi provider for Control Plane (cpln)
+type: provider
+template: pulumi-tf-provider-boilerplate

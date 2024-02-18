@@ -2,3 +2,4 @@ username: vavsab
 push:
   - pulumi-astra
   - pulumi-zitadel
+  - pulumi-cpln
