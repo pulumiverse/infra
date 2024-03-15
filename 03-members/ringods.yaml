@@ -1,7 +1,12 @@
 username: ringods
 role: admin
 admin:
+  - pulumi-acme
+  - pulumi-cockroach
   - pulumi-concourse
   - pulumi-configcat
+  - pulumi-grafana
   - pulumi-matchbox
+  - pulumi-scaleway
+  - pulumi-talos
   - pulumi-unifi
