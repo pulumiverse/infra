@@ -3,4 +3,3 @@ description: Pulumi provider for Scaleway
 type: provider
 template: pulumi-tf-provider-boilerplate
 import: true
-hasDownloads: true
