@@ -1,0 +1,6 @@
+name: pulumi-cockroach
+description: Pulumi provider for Cockroach DB
+type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
+hasDownloads: true

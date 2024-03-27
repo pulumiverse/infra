@@ -14,6 +14,6 @@ jobs:
               uses: pozil/auto-assign-issue@v1
               with:
                 repo-token: ${{ secrets.GITHUB_TOKEN }}
-                assignees: ringods, simenandre, dirien, usrbinkat, rebelopsio
+                assignees: ringods, simenandre, rebelopsio, tmeckel
                 numOfAssignee: 5
                 allowSelfAssign: false

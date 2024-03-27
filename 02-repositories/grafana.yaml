@@ -1,0 +1,6 @@
+name: pulumi-grafana
+description: Pulumi provider for Grafana
+type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
+hasDownloads: true
