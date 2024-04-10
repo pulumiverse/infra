@@ -20,7 +20,7 @@
     "typescript": "^4.7.3"
   },
   "volta": {
-    "node": "18.19.1"
+    "node": "18.20.2"
   },
   "dependencies": {
     "@pulumi/github": "^5.0.0",
