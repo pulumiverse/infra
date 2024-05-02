@@ -1,3 +1,4 @@
 username: pierskarsenbarg
 maintain:
+  - pulumi-dynatrace
   - pulumi-ngrok
