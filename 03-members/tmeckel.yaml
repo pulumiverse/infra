@@ -1,6 +1,6 @@
 username: tmeckel
 role: admin
-maintain:
+admin:
   - pulumi-time
   - pulumi-mssql
   - pulumi-fortios
