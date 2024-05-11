@@ -16,11 +16,11 @@
     "@bjerk/eslint-config": "^6.0.0",
     "@simenandre/prettier": "^5.0.0",
     "@tsconfig/node16": "^16.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "^4.7.3"
   },
   "volta": {
-    "node": "18.20.2"
+    "node": "20.13.1"
   },
   "dependencies": {
     "@pulumi/github": "^5.0.0",
