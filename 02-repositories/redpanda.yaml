@@ -1,3 +1,5 @@
 name: pulumi-redpanda
 description: Pulumi provider for Redpanda Cloud
 type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
