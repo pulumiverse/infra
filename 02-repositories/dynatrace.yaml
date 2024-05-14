@@ -1,0 +1,6 @@
+name: pulumi-dynatrace
+description: Pulumi provider for Dynatrace
+type: provider
+template: pulumi-tf-provider-boilerplate
+import: true
+hasDownloads: true
