@@ -1,4 +1,5 @@
 username: pierskarsenbarg
-maintain:
+admin:
   - pulumi-dynatrace
+maintain:
   - pulumi-ngrok
