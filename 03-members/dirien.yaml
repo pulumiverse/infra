@@ -1,5 +1,4 @@
 username: dirien
-role: admin
 admin:
   - pulumi-aquasec
   - pulumi-exoscale
