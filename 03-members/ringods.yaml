@@ -1,5 +1,4 @@
 username: ringods
-role: admin
 admin:
   - pulumi-acme
   - pulumi-cockroach
