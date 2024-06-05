@@ -64,7 +64,8 @@ export function configureOrganizationMembers(memberArgs: Member[], allTeams: Map
                             {
                                 parent: repo
                             }
-                        ]
+                        ],
+                        deleteBeforeReplace: true,
                     }
                 )
             } else {
