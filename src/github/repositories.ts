@@ -70,7 +70,8 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 }],
             },
             {
-                parent: this
+                parent: this,
+                deleteBeforeReplace: true,
             }
         );
 
