@@ -1,17 +1,35 @@
 name: Pull Request
 on:
-  pull_request_target:
+  pull_request:
     paths-ignore:
       - '.github/workflows/provider-*.yaml'
+
+  pull_request_target:
+    paths:
+      - '01-teams'
+      - '02-repositories'
+      - '03-members'
 
 jobs:
   preview-changes:
     name: Preview changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Checkout code when the event is `pull_request`
+      - name: Checkout code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+      # Checkout code when the event is `pull_request_target`
+      - name: Checkout code
+        if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v4
+        with:
+          ref: '${{ github.event.pull_request.merge_commit_sha }}'
+
       - uses: volta-cli/action@v4
+
       - run: npm ci
+
       - uses: pulumi/actions@v5.2.4
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
