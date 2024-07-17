@@ -1,0 +1,3 @@
+name: pulumi-clickhouse
+description: Pulumi provider for Clickhouse Cloud
+type: provider
