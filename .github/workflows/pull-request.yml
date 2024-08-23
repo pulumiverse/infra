@@ -30,7 +30,7 @@ jobs:
 
       - run: npm ci
 
-      - uses: pulumi/actions@v5.2.4
+      - uses: pulumi/actions@v5.5.1
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
