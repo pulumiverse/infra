@@ -40,7 +40,7 @@ jobs:
         token: ${{ github.token }}
         repo: pulumi/pulumictl
     - name: Install Pulumi CLI
-      uses: pulumi/actions@v5
+      uses: pulumi/actions@v6
     - if: github.event_name == 'pull_request'
       name: Install Schema Tools
       uses: jaxxstorm/action-install-gh-release@v1.12.0
