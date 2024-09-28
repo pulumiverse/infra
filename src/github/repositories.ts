@@ -19,6 +19,7 @@ interface RepositoryArgs {
     import: boolean;
     template: pulumi.Input<string> | undefined;
     removable: boolean;
+    archived: boolean;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -42,7 +43,8 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 template: args.template ? {
                     owner: 'pulumi',
                     repository: args.template,
-                } : undefined
+                } : undefined,
+                archived: args.archived || false
             },
             {
                 parent: this,
@@ -197,6 +199,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
                     removable: repositoryInfo.removable || false,
+                    archived: repositoryInfo.archived || false,
                 }).repository);
                 break;
             }
@@ -211,6 +214,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
                     removable: repositoryInfo.removable || false,
+                    archived: repositoryInfo.archived || false,
                 }).repository);
                 break;
             }
@@ -225,6 +229,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                         import: repositoryInfo.import || false,
                         template: repositoryInfo.template,
                         removable: repositoryInfo.removable || false,
+                        archived: repositoryInfo.archived || false,
                     }).repository
                 );
                 break;
