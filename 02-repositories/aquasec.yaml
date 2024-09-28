@@ -2,3 +2,4 @@ name: pulumi-aquasec
 description: Pulumi provider for Aquasec
 type: provider
 template: pulumi-tf-provider-boilerplate
+archived: true

@@ -35,6 +35,7 @@ export const Repository = RT.Record({
     import: RT.Boolean.optional(),
     template: RT.String.optional(),
     removable: RT.Boolean.optional(),
+    archived: RT.Boolean.optional(),
 })
 
 export type Team = Static<typeof Team>
