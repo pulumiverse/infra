@@ -81,7 +81,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
         if (args.labels) {
             pulumi.output(args.labels).apply((labels) => {
                 labels.forEach((label) => {
-                    new github.IssueLabel(`${name}_label_${label}`,
+                    new github.IssueLabel(`${name}_label_${label.name}`.replaceAll(/[$/:=]/gi, "_"),
                         {
                             repository: this._repository.name,
                             name: label.name,
