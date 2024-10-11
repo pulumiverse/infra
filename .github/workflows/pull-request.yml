@@ -3,12 +3,11 @@ on:
   pull_request:
     paths-ignore:
       - '.github/workflows/provider-*.yaml'
-
   pull_request_target:
     paths:
-      - '01-teams'
-      - '02-repositories'
-      - '03-members'
+      - '01-teams/**'
+      - '02-repositories/**'
+      - '03-members/**'
 
 jobs:
   preview-changes:
