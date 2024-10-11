@@ -1,13 +1,13 @@
 name: Pull Request
 on:
-  pull_request:
-    paths-ignore:
-      - '.github/workflows/provider-*.yaml'
   pull_request_target:
     paths:
       - '01-teams/**'
       - '02-repositories/**'
       - '03-members/**'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/provider-*.yaml'
 
 jobs:
   preview-changes:
