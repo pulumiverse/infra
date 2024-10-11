@@ -11,8 +11,6 @@ on:
       - '01-teams/**'
       - '02-repositories/**'
       - '03-members/**'
-    paths-ignore:
-      - '.github/workflows/provider-*.yaml'
 
 jobs:
   preview-changes:
