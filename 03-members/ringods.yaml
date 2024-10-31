@@ -8,5 +8,6 @@ admin:
   - pulumi-grafana
   - pulumi-matchbox
   - pulumi-scaleway
+  - pulumi-sentry
   - pulumi-talos
   - pulumi-unifi
