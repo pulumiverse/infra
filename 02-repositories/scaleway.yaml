@@ -2,4 +2,19 @@ name: pulumi-scaleway
 description: Pulumi provider for Scaleway
 type: provider
 template: pulumi-tf-provider-boilerplate
-import: true
+labels:
+  - name: needs-release/major
+    color: c4dff5
+    description: Indicates that this PR requires a major release after merging
+  - name: needs-release/minor
+    color: c4dff5
+    description: Indicates that this PR requires a minor release after merging
+  - name: needs-release/patch
+    color: c4dff5
+    description: Indicates that this PR requires a minor release after merging
+  - name: kind/bug
+    color: bfd4f2
+    description: Some behavior is incorrect or out of spec
+  - name: kind/enhancement
+    color: bfd4f2
+    description: Improvements or new features
