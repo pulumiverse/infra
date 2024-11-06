@@ -4,3 +4,4 @@ type: provider
 template: pulumi-tf-provider-boilerplate
 import: true
 hasDownloads: true
+workflows: ci-mgmt

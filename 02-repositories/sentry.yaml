@@ -1,3 +1,4 @@
 name: pulumi-sentry
 description: Pulumi provider for Sentry.io
 type: provider
+workflows: ci-mgmt

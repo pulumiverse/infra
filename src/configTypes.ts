@@ -36,6 +36,7 @@ export const Repository = RT.Record({
     template: RT.String.optional(),
     removable: RT.Boolean.optional(),
     archived: RT.Boolean.optional(),
+    workflows: RT.Literal('ci-mgmt').optional(),
 })
 
 export type Team = Static<typeof Team>
