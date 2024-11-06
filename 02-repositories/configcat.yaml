@@ -2,3 +2,4 @@ name: pulumi-configcat
 description: Pulumi provider for ConfigCat
 type: provider
 template: pulumi-tf-provider-boilerplate
+workflows: ci-mgmt
