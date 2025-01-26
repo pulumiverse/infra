@@ -26,7 +26,7 @@
   "dependencies": {
     "@pulumi/github": "^6.0.0",
     "@pulumi/pulumi": "^3.13.2",
-    "runtypes": "^6.5.1",
+    "runtypes": "^7.0.0",
     "yaml": "^2.1.1"
   }
 }
