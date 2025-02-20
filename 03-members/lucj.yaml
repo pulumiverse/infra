@@ -1,1 +1,3 @@
-
+username: lucj
+admin:
+  - pulumi-exoscale
