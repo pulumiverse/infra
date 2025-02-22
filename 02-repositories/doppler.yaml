@@ -1,5 +1,0 @@
-name: pulumi-doppler
-description: Pulumi provider for Doppler
-type: provider
-template: pulumi-tf-provider-boilerplate
-workflows: ci-mgmt
