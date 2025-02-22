@@ -10,3 +10,4 @@ admin:
   - pulumi-sentry
   - pulumi-talos
   - pulumi-unifi
+  - pulumi-zitadel
