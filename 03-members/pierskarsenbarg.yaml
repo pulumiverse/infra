@@ -3,4 +3,3 @@ admin:
   - pulumi-dynatrace
 maintain:
   - pulumi-ngrok
-  - pulumi-doppler

@@ -3,7 +3,6 @@ admin:
   - pulumi-acme
   - pulumi-cockroach
   - pulumi-configcat
-  - pulumi-doppler
   - pulumi-gandi
   - pulumi-grafana
   - pulumi-matchbox
