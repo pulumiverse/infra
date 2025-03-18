@@ -1,7 +1,6 @@
 username: ringods
 admin:
   - pulumi-acme
-  - pulumi-cockroach
   - pulumi-configcat
   - pulumi-gandi
   - pulumi-grafana
