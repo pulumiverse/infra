@@ -35,7 +35,7 @@ jobs:
       with:
         go-version: ${{inputs.goversion}}
     - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v2.0.0
+      uses: jaxxstorm/action-install-gh-release@v2.1.0
       with:
         token: ${{ github.token }}
         repo: pulumi/pulumictl
@@ -43,7 +43,7 @@ jobs:
       uses: pulumi/actions@v5
     - if: github.event_name == 'pull_request'
       name: Install Schema Tools
-      uses: jaxxstorm/action-install-gh-release@v2.0.0
+      uses: jaxxstorm/action-install-gh-release@v2.1.0
       with:
         token: ${{ github.token }}
         repo: pulumi/schema-tools
