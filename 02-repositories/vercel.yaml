@@ -1,0 +1,5 @@
+name: pulumi-vercel
+description: Pulumi provider for Vercel
+type: provider
+template: pulumi-tf-provider-boilerplate
+workflows: ci-mgmt
