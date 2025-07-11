@@ -1,0 +1,3 @@
+name: pulumi-forgejo
+description: A Pulumi provider for Forgejo
+type: provider
