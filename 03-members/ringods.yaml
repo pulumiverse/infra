@@ -2,7 +2,6 @@ username: ringods
 admin:
   - pulumi-acme
   - pulumi-configcat
-  - pulumi-gandi
   - pulumi-grafana
   - pulumi-matchbox
   - pulumi-scaleway
