@@ -21,11 +21,11 @@ jobs:
       # Checkout code when the event is `pull_request`
       - name: Checkout code
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       # Checkout code when the event is `pull_request_target`
       - name: Checkout code
         if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: '${{ github.event.pull_request.merge_commit_sha }}'
 
