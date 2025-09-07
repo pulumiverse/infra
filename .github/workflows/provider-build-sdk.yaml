@@ -65,7 +65,7 @@ jobs:
       with:
         dotnet-version: ${{ inputs.dotnetversion }}
     - name: Setup Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ inputs.pythonversion }}
     # - name: Setup Java
