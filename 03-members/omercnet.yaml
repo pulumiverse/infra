@@ -1,3 +1,4 @@
 username: omercnet
 admin:
   - pulumi-vercel
+  - pulumi-gandi
