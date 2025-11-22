@@ -22,9 +22,9 @@ jobs:
       fail-fast: true
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Checkout Scripts Repo
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         path: ci-scripts
         repository: pulumi/scripts
