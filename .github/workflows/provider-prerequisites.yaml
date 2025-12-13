@@ -72,7 +72,7 @@ jobs:
         github.workspace }}/bin/ pulumi-resource-${{ inputs.provider }}
         pulumi-tfgen-${{ inputs.provider }}
     - name: Upload artifacts
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: ${{ inputs.provider }}-provider.tar.gz
         path: ${{ github.workspace }}/bin/provider.tar.gz
