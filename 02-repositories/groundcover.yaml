@@ -1,0 +1,5 @@
+name: pulumi-groundcover
+description: Pulumi provider for Groundcover
+type: provider
+template: pulumi-tf-provider-boilerplate
+workflows: ci-mgmt
