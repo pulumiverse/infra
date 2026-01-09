@@ -24,8 +24,8 @@
     "npm": "11.6.4"
   },
   "dependencies": {
-    "@pulumi/github": "^6.0.0",
-    "@pulumi/pulumi": "^3.13.2",
+    "@pulumi/github": "=6.10.1",
+    "@pulumi/pulumi": "=3.214.1",
     "runtypes": "^6.5.1",
     "yaml": "^2.1.1"
   }
