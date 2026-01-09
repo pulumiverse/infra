@@ -306,6 +306,9 @@ const kubernetes_sdks = new github.Repository("kubernetes-sdks",
         deleteBranchOnMerge: true,
     },
     {
-        transformations: [standardRepoTags]
+        //transformations: [standardRepoTags]
+        ignoreChanges: [
+            "topics",
+        ],
     }
 );
