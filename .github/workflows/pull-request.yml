@@ -41,3 +41,4 @@ jobs:
           command: preview
           refresh: true
           stack-name: pulumiverse/prod
+          pulumi-version: 3.216.0 # must be aligned with version used in package.json
