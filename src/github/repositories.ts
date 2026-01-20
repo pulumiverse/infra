@@ -273,7 +273,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
 function standardRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.ResourceTransformationResult | undefined {
     if (args.type == 'github:index/repository:Repository') {
         let customTopics = args.props.topics as string[];
-        let allTopics = ['pulumi'].concat(customTopics);
+        let allTopics = ['pulumi'].concat(customTopics).filter(v => !!v);
         args.props.topics = allTopics;
         return {props: args.props, opts: args.opts};
     }
@@ -283,7 +283,7 @@ function standardRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
 function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.ResourceTransformationResult | undefined {
     if (args.type == 'github:index/repository:Repository') {
         let customTopics = args.props.topics as string[];
-        let allTopics = ['pulumi-provider'].concat(customTopics);
+        let allTopics = ['pulumi-provider'].concat(customTopics).filter(v => !!v);
         args.props.topics = allTopics;
         return {props: args.props, opts: args.opts};
     }
@@ -306,9 +306,6 @@ const kubernetes_sdks = new github.Repository("kubernetes-sdks",
         deleteBranchOnMerge: true,
     },
     {
-        //transformations: [standardRepoTags]
-        ignoreChanges: [
-            "topics",
-        ],
+        transformations: [standardRepoTags]
     }
 );
