@@ -7,3 +7,5 @@ admin:
   - pulumi-scaleway
   - pulumi-talos
   - pulumi-unifi
+  - pulumi-buildkite
+
