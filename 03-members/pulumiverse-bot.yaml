@@ -1,2 +1,9 @@
 username: pulumiverse-bot
-role: admin
+maintain:
+  - pulumi-acme
+  - pulumi-forgejo
+  - pulumi-grafana
+  - pulumi-matchbox
+  - pulumi-scaleway
+  - pulumi-talos
+  - pulumi-unifi
