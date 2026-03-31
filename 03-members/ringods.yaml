@@ -8,5 +8,4 @@ admin:
   - pulumi-talos
   - pulumi-unifi
 maintain:
-  - pulumi-buildkite
-
+  - awesome-pulumi
