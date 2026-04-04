@@ -47,7 +47,7 @@ jobs:
       with:
         token: ${{ github.token }}
         repo: pulumi/schema-tools
-        tag: v0.7.0
+        tag: v0.7.1
     - name: Build tfgen & provider binaries
       run: make provider
     - if: github.event_name == 'pull_request'
