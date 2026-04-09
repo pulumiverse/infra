@@ -1,0 +1,5 @@
+name: pulumi-clickhousedbops
+description: Pulumi provider for ClickHouse database operations (users, roles, grants)
+type: provider
+template: pulumi-tf-provider-boilerplate
+workflows: ci-mgmt
