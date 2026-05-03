@@ -1,5 +1,4 @@
 name: pulumi-cpln
 description: Pulumi provider for Control Plane (cpln)
 type: provider
-hasDownloads: true
 import: true
