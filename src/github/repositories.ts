@@ -15,7 +15,6 @@ interface RepositoryArgs {
     topics: pulumi.Input<string[]>,
     labels: LabelArgs[],
     allTeams: Map<string, github.Team>;
-    hasDownloads: boolean;
     import: boolean;
     template: pulumi.Input<string> | undefined;
     removable: boolean;
@@ -34,11 +33,9 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 description: args.description,
                 hasWiki: false,
                 hasIssues: args.archived === true ? false : true,
-                hasDownloads: args.hasDownloads || false,
                 hasProjects: false,
                 visibility: 'public',
                 deleteBranchOnMerge: true,
-                vulnerabilityAlerts: args.archived === true ? false : true,
                 topics: args.topics,
                 template: args.template ? {
                     owner: 'pulumi',
@@ -56,6 +53,16 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 ],
                 transformations: this.repositoryTransformations(),
                 protect: !args.removable
+            }
+        );
+        const vulnerabilityAlerts = new github.RepositoryVulnerabilityAlerts(`${name}_vulnerability_alerts`,
+            {
+                repository: this._repository.name,
+                enabled:args.archived === true ? false : true,
+            },
+            {
+                parent: this,
+                deleteBeforeReplace: true,
             }
         );
         const mainBranchProtection = new github.BranchProtection(`${name}_protect_main`,
@@ -88,9 +95,9 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                             description: label.description,
                             color: label.color,
                         }, {
-                            parent: this,
-                            deleteBeforeReplace: true,
-                        });
+                        parent: this,
+                        deleteBeforeReplace: true,
+                    });
                 })
             })
         }
@@ -226,7 +233,6 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     topics: repositoryInfo.topics || [],
                     labels: labelArgs || [],
                     allTeams: allTeams,
-                    hasDownloads: repositoryInfo.hasDownloads || false,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
                     removable: repositoryInfo.removable || false,
@@ -241,7 +247,6 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     topics: repositoryInfo.topics || [],
                     labels: labelArgs || [],
                     allTeams: allTeams,
-                    hasDownloads: repositoryInfo.hasDownloads || false,
                     import: repositoryInfo.import || false,
                     template: repositoryInfo.template,
                     removable: repositoryInfo.removable || false,
@@ -251,17 +256,16 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
             }
             case 'information': {
                 repositories.set(repositoryInfo.name, new InformationRepository(repositoryInfo.name, {
-                        description: repositoryInfo.description,
-                        teams: repositoryInfo.teams || [],
-                        topics: repositoryInfo.topics || [],
-                        labels: labelArgs || [],
-                        allTeams: allTeams,
-                        hasDownloads: repositoryInfo.hasDownloads || false,
-                        import: repositoryInfo.import || false,
-                        template: repositoryInfo.template,
-                        removable: repositoryInfo.removable || false,
-                        archived: repositoryInfo.archived === true ? true : false,
-                    }).repository
+                    description: repositoryInfo.description,
+                    teams: repositoryInfo.teams || [],
+                    topics: repositoryInfo.topics || [],
+                    labels: labelArgs || [],
+                    allTeams: allTeams,
+                    import: repositoryInfo.import || false,
+                    template: repositoryInfo.template,
+                    removable: repositoryInfo.removable || false,
+                    archived: repositoryInfo.archived === true ? true : false,
+                }).repository
                 );
                 break;
             }
@@ -275,7 +279,7 @@ function standardRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
         let customTopics = args.props.topics as string[];
         let allTopics = ['pulumi'].concat(customTopics).filter(v => !!v);
         args.props.topics = allTopics;
-        return {props: args.props, opts: args.opts};
+        return { props: args.props, opts: args.opts };
     }
     return undefined
 }
@@ -285,7 +289,7 @@ function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
         let customTopics = args.props.topics as string[];
         let allTopics = ['pulumi-provider'].concat(customTopics).filter(v => !!v);
         args.props.topics = allTopics;
-        return {props: args.props, opts: args.opts};
+        return { props: args.props, opts: args.opts };
     }
     return undefined
 }
@@ -293,12 +297,10 @@ function providerRepoTags(args: pulumi.ResourceTransformationArgs): pulumi.Resou
 const kubernetes_sdks = new github.Repository("kubernetes-sdks",
     {
         name: 'kubernetes-sdks',
-        hasDownloads: true,
         hasIssues: true,
         hasProjects: false,
         hasWiki: false,
         visibility: 'public',
-        vulnerabilityAlerts: false,
         allowAutoMerge: true,
         allowRebaseMerge: true,
         allowSquashMerge: false,

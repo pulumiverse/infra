@@ -31,7 +31,6 @@ export const Repository = RT.Record({
     teams: RT.Array(RT.String).optional(),
     topics: RT.Array(RT.String).optional(),
     labels: RT.Array(Labels).optional(),
-    hasDownloads: RT.Boolean.optional(),
     import: RT.Boolean.optional(),
     template: RT.String.optional(),
     removable: RT.Boolean.optional(),
