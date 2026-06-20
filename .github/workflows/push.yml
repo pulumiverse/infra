@@ -10,7 +10,7 @@ jobs:
     name: Apply changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: volta-cli/action@v5
       - run: npm ci
       - uses: pulumi/actions@v7
