@@ -20,6 +20,10 @@ interface RepositoryArgs {
     removable: boolean;
     archived: boolean;
     autoInit?: boolean;
+    // Optional org-settings resource to declare as a dependency. Used by
+    // WebsiteRepository to ensure org-level Pages creation is enabled before
+    // github.RepositoryPages is provisioned.
+    orgSettings?: github.OrganizationSettings;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -189,6 +193,13 @@ class WebsiteRepository extends BaseRepository {
     constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
         super('pulumiverse:github:WebsiteRepository', name, args, opts);
 
+        // Depend on the org settings to ensure membersCanCreatePages is enabled
+        // before this resource is created. Without this ordering, the GitHub API
+        // returns a 422 "disabled Pages creation" error.
+        const pagesDeps: pulumi.Resource[] = [this.repository];
+        if (args.orgSettings) {
+            pagesDeps.push(args.orgSettings);
+        }
         new github.RepositoryPages(`${name}_pages`, {
             repository: this.repository.name,
             buildType: 'legacy',
@@ -198,7 +209,7 @@ class WebsiteRepository extends BaseRepository {
             },
         }, {
             parent: this,
-            dependsOn: this.repository,
+            dependsOn: pagesDeps,
         });
     }
 
@@ -208,7 +219,7 @@ class WebsiteRepository extends BaseRepository {
 
 }
 
-export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>): Map<string, github.Repository> {
+export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>, orgSettings?: github.OrganizationSettings): Map<string, github.Repository> {
     let repositories = new Map<string, github.Repository>()
     repositoryArgs.map((repositoryInfo) => {
 
@@ -313,6 +324,7 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     // Ensure the default branch exists at creation time so that GitHub Pages
                     // can be configured without a separate initialization step.
                     autoInit: true,
+                    orgSettings: orgSettings,
                 }).repository);
                 break;
             }
