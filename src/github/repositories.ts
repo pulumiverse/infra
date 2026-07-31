@@ -181,23 +181,12 @@ class InformationRepository extends BaseRepository {
 }
 
 // A Website repository is a repository that hosts a GitHub Pages site (e.g. pulumiverse.github.io).
-// It configures GitHub Pages with the legacy build type, sourced from the main branch root.
+// For repos named <org>.github.io, GitHub automatically enables Pages from the default branch —
+// no explicit Pages API call is needed or possible with the org's token scopes.
 class WebsiteRepository extends BaseRepository {
 
     constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
         super('pulumiverse:github:WebsiteRepository', name, args, opts);
-
-        new github.RepositoryPages(`${name}_pages`, {
-            repository: this.repository.name,
-            buildType: 'legacy',
-            source: {
-                branch: 'main',
-                path: '/',
-            },
-        }, {
-            parent: this,
-            dependsOn: this.repository,
-        });
     }
 
     repositoryTransformations(): pulumi.ResourceTransformation[] {
