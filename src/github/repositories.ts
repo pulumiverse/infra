@@ -180,6 +180,32 @@ class InformationRepository extends BaseRepository {
 
 }
 
+// A Website repository is a repository that hosts a GitHub Pages site (e.g. pulumiverse.github.io).
+// It configures GitHub Pages with the legacy build type, sourced from the main branch root.
+class WebsiteRepository extends BaseRepository {
+
+    constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
+        super('pulumiverse:github:WebsiteRepository', name, args, opts);
+
+        new github.RepositoryPages(`${name}_pages`, {
+            repository: this.repository.name,
+            buildType: 'legacy',
+            source: {
+                branch: 'main',
+                path: '/',
+            },
+        }, {
+            parent: this,
+            dependsOn: this.repository,
+        });
+    }
+
+    repositoryTransformations(): pulumi.ResourceTransformation[] {
+        return [standardRepoTags]
+    }
+
+}
+
 export function configureRepositories(repositoryArgs: Repository[], allTeams: Map<string, github.Team>): Map<string, github.Repository> {
     let repositories = new Map<string, github.Repository>()
     repositoryArgs.map((repositoryInfo) => {
@@ -269,6 +295,20 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     archived: repositoryInfo.archived === true ? true : false,
                 }).repository
                 );
+                break;
+            }
+            case 'website': {
+                repositories.set(repositoryInfo.name, new WebsiteRepository(repositoryInfo.name, {
+                    description: repositoryInfo.description,
+                    teams: repositoryInfo.teams || [],
+                    topics: repositoryInfo.topics || [],
+                    labels: labelArgs || [],
+                    allTeams: allTeams,
+                    import: repositoryInfo.import || false,
+                    template: repositoryInfo.template,
+                    removable: repositoryInfo.removable || false,
+                    archived: repositoryInfo.archived === true ? true : false,
+                }).repository);
                 break;
             }
         }
