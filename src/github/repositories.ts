@@ -55,16 +55,18 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                 protect: !args.removable
             }
         );
-        const vulnerabilityAlerts = new github.RepositoryVulnerabilityAlerts(`${name}_vulnerability_alerts`,
-            {
-                repository: this._repository.name,
-                enabled:args.archived === true ? false : true,
-            },
-            {
-                parent: this,
-                deleteBeforeReplace: true,
-            }
-        );
+        if (!args.archived) {
+            const vulnerabilityAlerts = new github.RepositoryVulnerabilityAlerts(`${name}_vulnerability_alerts`,
+                {
+                    repository: this._repository.name,
+                    enabled: true,
+                },
+                {
+                    parent: this,
+                    deleteBeforeReplace: true,
+                }
+            );
+        }
         const mainBranchProtection = new github.BranchProtection(`${name}_protect_main`,
             {
                 repositoryId: this._repository.nodeId,
