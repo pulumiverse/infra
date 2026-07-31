@@ -1,0 +1,7 @@
+name: pulumiverse.github.io
+description: Pulumiverse community website - entrypoint for contributors and maintainers
+type: website
+topics:
+  - github-pages
+  - documentation
+  - community

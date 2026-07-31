@@ -8,5 +8,6 @@ admin:
   - pulumi-talos
   - pulumi-unifi
   - projen-pulumi-providers
+  - pulumiverse.github.io
 maintain:
   - awesome-pulumi

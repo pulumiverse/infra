@@ -27,7 +27,7 @@ export const Labels = RT.Record({
 export const Repository = RT.Record({
     name: RT.String,
     description: RT.String,
-    type: RT.Union(RT.Literal('administrative'), RT.Literal('provider'), RT.Literal('information')),
+    type: RT.Union(RT.Literal('administrative'), RT.Literal('provider'), RT.Literal('information'), RT.Literal('website')),
     teams: RT.Array(RT.String).optional(),
     topics: RT.Array(RT.String).optional(),
     labels: RT.Array(Labels).optional(),
