@@ -189,10 +189,6 @@ class WebsiteRepository extends BaseRepository {
     constructor(name: string, args: RepositoryArgs, opts?: pulumi.ComponentResourceOptions) {
         super('pulumiverse:github:WebsiteRepository', name, args, opts);
 
-        // Depend on the org settings to ensure membersCanCreatePages is enabled
-        // before this resource is created. Without this ordering, the GitHub API
-        // returns a 422 "disabled Pages creation" error.
-        const pagesDeps: pulumi.Resource[] = [this.repository];
         new github.RepositoryPages(`${name}_pages`, {
             repository: this.repository.name,
             buildType: 'legacy',
@@ -202,7 +198,6 @@ class WebsiteRepository extends BaseRepository {
             },
         }, {
             parent: this,
-            dependsOn: pagesDeps,
         });
     }
 
