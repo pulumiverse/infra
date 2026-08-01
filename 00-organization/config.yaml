@@ -1,0 +1,21 @@
+---
+# The org has no billing email configured; use an empty string to satisfy
+# the required field, and list it in ignoreChanges to prevent drift.
+billingEmail: ""
+name: Pulumiverse
+description: The universe of all things Pulumi
+twitterUsername: pulumiverse
+
+hasOrganizationProjects: true
+hasRepositoryProjects: true
+
+membersCanCreateRepositories: false
+membersCanCreatePublicRepositories: false
+membersCanCreatePrivateRepositories: false
+
+membersCanCreatePages: true
+membersCanCreatePublicPages: true
+membersCanCreatePrivatePages: false
+
+membersCanForkPrivateRepositories: false
+webCommitSignoffRequired: false
