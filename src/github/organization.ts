@@ -1,5 +1,7 @@
 import * as github from "@pulumi/github";
 
+import { OrganizationSettingsConfig } from "../configTypes";
+
 /**
  * Configures the pulumiverse GitHub organization settings.
  *
@@ -8,36 +10,34 @@ import * as github from "@pulumi/github";
  * provisioned via `github.RepositoryPages`. Private Pages require GitHub
  * Enterprise and remain disabled.
  */
-export function configureOrganizationSettings(): github.OrganizationSettings {
+export function configureOrganizationSettings(settings: OrganizationSettingsConfig): github.OrganizationSettings {
     return new github.OrganizationSettings("pulumiverse", {
-        // The org has no billing email configured; use an empty string to satisfy
-        // the required field, and list it in ignoreChanges to prevent drift.
-        billingEmail: "",
+        billingEmail: settings.billingEmail,
 
         // Org identity
-        name: "Pulumiverse",
-        description: "The universe of all things Pulumi",
-        twitterUsername: "pulumiverse",
+        name: settings.name,
+        description: settings.description,
+        twitterUsername: settings.twitterUsername,
 
         // Project features
-        hasOrganizationProjects: true,
-        hasRepositoryProjects: true,
+        hasOrganizationProjects: settings.hasOrganizationProjects,
+        hasRepositoryProjects: settings.hasRepositoryProjects,
 
         // Repository creation: restricted to admins only — members cannot
         // create new repos directly.
-        membersCanCreateRepositories: false,
-        membersCanCreatePublicRepositories: false,
-        membersCanCreatePrivateRepositories: false,
+        membersCanCreateRepositories: settings.membersCanCreateRepositories,
+        membersCanCreatePublicRepositories: settings.membersCanCreatePublicRepositories,
+        membersCanCreatePrivateRepositories: settings.membersCanCreatePrivateRepositories,
 
         // Pages creation: enable public Pages so that org admins (and the
         // deployment token) can publish the pulumiverse.github.io site.
         // Private Pages are not available on the free plan.
-        membersCanCreatePages: true,
-        membersCanCreatePublicPages: true,
-        membersCanCreatePrivatePages: false,
+        membersCanCreatePages: settings.membersCanCreatePages,
+        membersCanCreatePublicPages: settings.membersCanCreatePublicPages,
+        membersCanCreatePrivatePages: settings.membersCanCreatePrivatePages,
 
-        membersCanForkPrivateRepositories: false,
-        webCommitSignoffRequired: false,
+        membersCanForkPrivateRepositories: settings.membersCanForkPrivateRepositories,
+        webCommitSignoffRequired: settings.webCommitSignoffRequired,
     }, {
         // Import the existing organization settings using the org's numeric ID.
         import: "63815353",
