@@ -43,7 +43,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                     repository: args.template,
                 } : undefined,
                 archived: args.archived === true ? true : false,
-                autoInit: args.autoInit ?? false,
+                autoInit: args.autoInit === true ? true : false,
             },
             {
                 parent: this,
