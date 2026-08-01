@@ -38,6 +38,24 @@ export const Repository = RT.Record({
     workflows: RT.Literal('ci-mgmt').optional(),
 })
 
+export const OrganizationSettingsConfig = RT.Record({
+    billingEmail: RT.String,
+    name: RT.String,
+    description: RT.String,
+    twitterUsername: RT.String,
+    hasOrganizationProjects: RT.Boolean,
+    hasRepositoryProjects: RT.Boolean,
+    membersCanCreateRepositories: RT.Boolean,
+    membersCanCreatePublicRepositories: RT.Boolean,
+    membersCanCreatePrivateRepositories: RT.Boolean,
+    membersCanCreatePages: RT.Boolean,
+    membersCanCreatePublicPages: RT.Boolean,
+    membersCanCreatePrivatePages: RT.Boolean,
+    membersCanForkPrivateRepositories: RT.Boolean,
+    webCommitSignoffRequired: RT.Boolean,
+})
+
 export type Team = Static<typeof Team>
 export type Member = Static<typeof Member>
 export type Repository = Static<typeof Repository>
+export type OrganizationSettingsConfig = Static<typeof OrganizationSettingsConfig>
