@@ -19,7 +19,7 @@ async function main() {
     const teams = configureOrganizationTeams(teamList);
 
     const repositoryList = await readAndParseFilesInFolder<Repository>("02-repositories", Repository);
-    const repositories = configureRepositories(repositoryList, teams, orgSettings);
+    const repositories = configureRepositories(repositoryList, teams);
 
     const memberList = await readAndParseFilesInFolder<Member>("03-members", Member);
     const members = configureOrganizationMembers(memberList, teams, repositories);
