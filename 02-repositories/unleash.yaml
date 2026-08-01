@@ -1,5 +1,4 @@
 name: pulumi-unleash
 description: Pulumi provider for Unleash
 type: provider
-template: pulumi-tf-provider-boilerplate
 workflows: ci-mgmt
