@@ -1,5 +1,6 @@
 [env]
-_.file = ".env"
+_.file = "{{config_root}}/.env"
+_.path = ['{{config_root}}/node_modules/.bin']
 
 [tools]
 pulumi = "latest"
