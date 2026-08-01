@@ -19,6 +19,7 @@ interface RepositoryArgs {
     template: pulumi.Input<string> | undefined;
     removable: boolean;
     archived: boolean;
+    autoInit?: boolean;
 }
 abstract class BaseRepository extends pulumi.ComponentResource {
 
@@ -42,6 +43,7 @@ abstract class BaseRepository extends pulumi.ComponentResource {
                     repository: args.template,
                 } : undefined,
                 archived: args.archived === true ? true : false,
+                autoInit: args.autoInit ?? false,
             },
             {
                 parent: this,
@@ -308,6 +310,9 @@ export function configureRepositories(repositoryArgs: Repository[], allTeams: Ma
                     template: repositoryInfo.template,
                     removable: repositoryInfo.removable || false,
                     archived: repositoryInfo.archived === true ? true : false,
+                    // Ensure the default branch exists at creation time so that GitHub Pages
+                    // can be configured without a separate initialization step.
+                    autoInit: true,
                 }).repository);
                 break;
             }
