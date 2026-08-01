@@ -1,4 +1,3 @@
 name: pulumi-runs-on
 description: A Pulumi provider for RunsOn
 type: provider
-template: pulumi-provider-boilerplate
