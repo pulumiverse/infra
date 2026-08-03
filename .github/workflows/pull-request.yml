@@ -22,12 +22,35 @@ jobs:
       - name: Checkout code
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v7
+
       # Checkout code when the event is `pull_request_target`
       - name: Checkout code
         if: github.event_name == 'pull_request_target'
         uses: actions/checkout@v7
         with:
           ref: '${{ github.event.pull_request.merge_commit_sha }}'
+          allow-unsafe-pr-checkout: true
+
+      # Enforce YAML-only changes for fork PRs
+      - name: Enforce YAML-only changes for fork PRs
+        if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
+        shell: bash
+        run: |
+          # Fetch the base branch to calculate the diff
+          git fetch origin ${{ github.base_ref }} --depth=1
+
+          # Get a list of all files changed by the PR
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          # Regex: Match ONLY .yml/.yaml files inside the allowed root directories
+          UNEXPECTED_FILES=$(echo "$CHANGED_FILES" | grep -v -E '^(01-teams|02-repositories|03-members)/.*\.(yml|yaml)$' | grep -v '^$' || true)
+
+          if [ -n "$UNEXPECTED_FILES" ]; then
+            echo "::error::Policy Violation: Fork PRs are only allowed to modify YAML files in 01-teams, 02-repositories, or 03-members."
+            echo "The following unexpected files were modified:"
+            echo "$UNEXPECTED_FILES"
+            exit 1
+          fi
 
       - uses: volta-cli/action@v5
 
