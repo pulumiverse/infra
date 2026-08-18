@@ -1,0 +1,4 @@
+name: pulumi-devin
+description: Pulumi provider for Devin
+type: provider
+workflows: ci-mgmt
