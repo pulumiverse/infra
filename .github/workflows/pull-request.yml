@@ -23,6 +23,21 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v7
 
+      # Without a merge commit the checkout below silently falls back to the base
+      # branch, so the guard compares main against main and the preview reports the
+      # base stack as unchanged. GitHub computes the merge commit asynchronously, so
+      # it can still be empty when the event fires.
+      - name: Require a merge commit
+        if: github.event_name == 'pull_request_target'
+        shell: bash
+        env:
+          MERGE_COMMIT_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          if [ -z "$MERGE_COMMIT_SHA" ]; then
+            echo "::error::GitHub has not published a merge commit for this pull request yet, so this job would run against the base branch instead of the pull request. Re-run it once the pull request reports a mergeable state."
+            exit 1
+          fi
+
       # Checkout code when the event is `pull_request_target`
       - name: Checkout code
         if: github.event_name == 'pull_request_target'
@@ -30,6 +45,8 @@ jobs:
         with:
           ref: '${{ github.event.pull_request.merge_commit_sha }}'
           allow-unsafe-pr-checkout: true
+          # The guard below diffs against the merge base, which needs real history.
+          fetch-depth: 0
 
       # Enforce YAML-only changes for fork PRs
       - name: Enforce YAML-only changes for fork PRs
@@ -37,7 +54,7 @@ jobs:
         shell: bash
         run: |
           # Fetch the base branch to calculate the diff
-          git fetch origin ${{ github.base_ref }} --depth=1
+          git fetch origin ${{ github.base_ref }}
 
           # Get a list of all files changed by the PR
           CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
