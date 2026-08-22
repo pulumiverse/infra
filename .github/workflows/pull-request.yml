@@ -23,27 +23,46 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v7
 
-      # Without a merge commit the checkout below silently falls back to the base
-      # branch, so the guard compares main against main and the preview reports the
-      # base stack as unchanged. GitHub computes the merge commit asynchronously, so
-      # it can still be empty when the event fires.
-      - name: Require a merge commit
+      # GitHub computes the merge commit asynchronously — mergeable/merge_commit_sha
+      # can be null when the event fires. Poll with binary exponential backoff
+      # (max 5 retries) before failing. Docs: https://docs.github.com/en/rest/pulls/pulls#checking-mergeability-of-pull-requests
+      - name: Wait for merge commit
         if: github.event_name == 'pull_request_target'
-        shell: bash
-        env:
-          MERGE_COMMIT_SHA: ${{ github.event.pull_request.merge_commit_sha }}
-        run: |
-          if [ -z "$MERGE_COMMIT_SHA" ]; then
-            echo "::error::GitHub has not published a merge commit for this pull request yet, so this job would run against the base branch instead of the pull request. Re-run it once the pull request reports a mergeable state."
-            exit 1
-          fi
+        id: wait-for-merge
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const delays = [2, 4, 8, 16, 32]; // binary exp, 5 retries, 62s total (2+4+8+16+32)
+            for (let attempt = 0; attempt <= delays.length; attempt++) {
+              const { data: pr } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+              });
+              if (pr.mergeable === true && pr.merge_commit_sha) {
+                core.setOutput('sha', pr.merge_commit_sha);
+                core.info(`Merge commit ready: ${pr.merge_commit_sha}`);
+                return;
+              }
+              if (pr.mergeable === false) {
+                core.setFailed('PR has merge conflicts — cannot create merge commit');
+                return;
+              }
+              if (attempt < delays.length) {
+                const delay = delays[attempt];
+                core.info(`mergeable=${pr.mergeable} (attempt ${attempt + 1}/${delays.length + 1}), retrying in ${delay}s`);
+                await new Promise(r => setTimeout(r, delay * 1000));
+              }
+            }
+            core.setFailed('Timed out waiting for GitHub to publish merge commit after 5 retries (62s). Re-run job.');
 
       # Checkout code when the event is `pull_request_target`
       - name: Checkout code
         if: github.event_name == 'pull_request_target'
         uses: actions/checkout@v7
         with:
-          ref: '${{ github.event.pull_request.merge_commit_sha }}'
+          ref: '${{ steps.wait-for-merge.outputs.sha }}'
           allow-unsafe-pr-checkout: true
           # The guard below diffs against the merge base, which needs real history.
           fetch-depth: 0
