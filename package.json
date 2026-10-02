@@ -21,7 +21,7 @@
   },
   "volta": {
     "node": "22.23.3",
-    "npm": "11.20.0"
+    "npm": "11.21.0"
   },
   "dependencies": {
     "@pulumi/github": "=6.15.0",
